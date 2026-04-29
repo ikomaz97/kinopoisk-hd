@@ -1,0 +1,53 @@
+/**
+ * Пример: CSS модуль для Button компонента
+ *
+ * Названия классов: используем kebab-case в CSS файле
+ * При импорте они становятся camelCase благодаря конфигурации localsConvention: 'camelCase'
+ */
+
+/* Основной класс кнопки */
+.button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+/* Вариант: primary */
+.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #0056b3;
+}
+
+.primary:active {
+  background-color: #004085;
+}
+
+/* Вариант: secondary */
+.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.secondary:hover {
+  background-color: #545b62;
+}
+
+.secondary:active {
+  background-color: #383d42;
+}
+
+/* Отключенная кнопка */
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+

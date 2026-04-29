@@ -10,4 +10,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  css: {
+    modules: {
+      // Конфигурация CSS модулей
+      localsConvention: 'camelCase',
+      // каmelCase для названий классов (movieCard вместо movie-card)
+    },
+  },
 })
