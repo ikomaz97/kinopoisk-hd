@@ -1,12 +1,9 @@
 {
   "compilerOptions": {
-    // Убираем "baseUrl": ".",
-
-    // Вместо paths используем rootDirs для указания корня
+    "baseUrl": ".",
     "rootDirs": [".", "./src"],
-
     "paths": {
-      "@/*": ["./src/*"]   // Путь теперь относительный
+      "@/*": ["src/*"]
     },
 
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
@@ -28,7 +25,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src"]
 }
