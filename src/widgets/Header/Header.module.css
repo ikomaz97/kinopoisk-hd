@@ -1,0 +1,107 @@
+/**
+ * Стили Header компонента
+ */
+
+/* Header контейнер */
+.header {
+  background-color: #0f3460;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Внутренний контейнер Header */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Логотип стили */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.logo:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logoIcon {
+  font-size: 1.5rem;
+}
+
+.logoText {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Навигация */
+.nav {
+  flex: 1;
+  margin-left: 40px;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+.navLink {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.navLink:hover {
+  color: #00d4ff;
+  border-bottom-color: #00d4ff;
+}
+
+.navLink:active {
+  color: #0099cc;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .nav {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .navList {
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .navLink {
+    font-size: 0.9rem;
+  }
+}
+
