@@ -4,9 +4,9 @@
  */
 
 import { baseApi } from '@/shared/api/baseApi'
-import type { Movie, MovieDetails, MovieSearchResult } from '../model/types'
-import { MovieSchema, MovieDetailsSchema, SearchSchema } from '../model/schemas'
-import { TMDB_BASE_URL, TMDB_ACCESS_TOKEN, DEFAULT_LANGUAGE, DEFAULT_REGION } from '@/shared/constants/api'
+import type { Movie, MovieDetails, MovieSearchResult } from '../model'
+import { MovieDetailsSchema, SearchSchema } from '../model/schemas'
+import { DEFAULT_LANGUAGE, DEFAULT_REGION, TMDB_ACCESS_TOKEN } from '@/shared/constants/api'
 
 /**
  * API для получения фильмов из TMDB
@@ -150,3 +150,4 @@ export const {
   useSearchMoviesQuery,
   useGetMovieDetailsQuery,
 } = movieApi
+
