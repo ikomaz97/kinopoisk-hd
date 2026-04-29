@@ -1,0 +1,53 @@
+/**
+ * Стили компонента ThemeToggle
+ * Кнопка переключения темы
+ */
+
+/* Основные стили кнопки */
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: var(--color-text-primary);
+}
+
+/* Hover эффект */
+.themeToggle:hover {
+  background-color: var(--color-hover);
+}
+
+/* Active состояние */
+.themeToggle:active {
+  transform: scale(0.95);
+}
+
+/* Иконка */
+.icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spin 0.3s ease-in-out;
+}
+
+/* Анимация вращения при переключении */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
