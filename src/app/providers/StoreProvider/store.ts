@@ -5,6 +5,7 @@
 
 import { configureStore } from '@reduxjs/toolkit'
 import { themeReducer } from '@/features/theme'
+import { baseApi } from '@/shared/api/baseApi'
 
 /**
  * Redux Store
@@ -13,10 +14,18 @@ import { themeReducer } from '@/features/theme'
 export const store = configureStore({
   reducer: {
     /**
-     * Редьюсер д��я управления темой приложения
+     * Редьюсер для управления темой приложения
      */
     theme: themeReducer,
+    /**
+     * Редьюсер RTK Query для API
+     */
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+  /**
+   * Middleware включает RTK Query middleware для кэширования и запросов
+   */
+  middleware: (getDefault) => getDefault().concat(baseApi.middleware),
 })
 
 /**

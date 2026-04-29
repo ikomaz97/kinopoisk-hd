@@ -1,0 +1,43 @@
+/**
+ * Стили страницы Search
+ */
+
+/* Контейнер страницы */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Заголовок страницы */
+.pageTitle {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--color-text-primary);
+}
+
+/* Поле поиска */
+.searchInput {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  margin-bottom: 20px;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+/* Сообщение о том, что страница в разработке */
+.comingSoon {
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+}
+

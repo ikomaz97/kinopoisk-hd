@@ -1,0 +1,26 @@
+/**
+ * Стили страницы Filtered
+ */
+
+/* Контейнер страницы */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Заголовок страницы */
+.pageTitle {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--color-text-primary);
+}
+
+/* Сообщение о том, что страница в разработке */
+.comingSoon {
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+}
+

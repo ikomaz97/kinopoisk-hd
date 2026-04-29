@@ -1,0 +1,25 @@
+/**
+ * Стили страницы Category
+ */
+
+/* Контейнер страницы */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Заголовок страницы */
+.pageTitle {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--color-text-primary);
+}
+
+/* Сообщение об ошибке */
+.error {
+  color: #ff4444;
+  text-align: center;
+  padding: 20px;
+}
+

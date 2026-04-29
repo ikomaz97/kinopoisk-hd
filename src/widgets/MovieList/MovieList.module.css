@@ -1,0 +1,57 @@
+/**
+ * Стили виджета MovieList
+ */
+
+/* Контейнер списка фильмов */
+.movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* Карточка фильма */
+.movieCard {
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.movieCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Постер */
+.poster {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Название фильма */
+.title {
+  padding: 10px;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Год выпуска */
+.releaseDate {
+  padding: 0 10px;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* Рейтинг */
+.rating {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--color-accent);
+}

@@ -1,0 +1,19 @@
+/**
+ * Стили компонента Loader
+ */
+
+/* Контейнер загрузчика */
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+/* Прогресс бар */
+.progress {
+  width: 100% !important;
+  max-width: 300px;
+}
+
