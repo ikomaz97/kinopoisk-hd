@@ -1,0 +1,7 @@
+/* MoviePoster.module.css */
+.poster {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+}
+

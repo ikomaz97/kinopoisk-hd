@@ -1,0 +1,21 @@
+/* GenreButton.module.css */
+.genreButton {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.genreButton:hover {
+  background-color: #f0f0f0;
+}
+
+.selected {
+  background-color: #61dafb;
+  color: #fff;
+  border-color: #61dafb;
+}
+

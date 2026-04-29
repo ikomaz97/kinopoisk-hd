@@ -1,0 +1,14 @@
+/* Header.module.css */
+.header {
+  background-color: #20232a;
+  color: #61dafb;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+}
+.logo {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
