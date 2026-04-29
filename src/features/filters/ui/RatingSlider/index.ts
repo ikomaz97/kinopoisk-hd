@@ -1,2 +1,0 @@
-export {  RatingSlider } from './RatingSlider';
-
