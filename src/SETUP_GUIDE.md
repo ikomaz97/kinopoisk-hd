@@ -130,4 +130,3 @@ export default MovieCard
 - CSS модули (.module.css файлы)
 - Полную типизацию CSS классов
 */
-
