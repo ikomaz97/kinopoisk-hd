@@ -4,7 +4,8 @@
  */
 
 import type { FC, ChangeEvent } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useSearchMoviesQuery } from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
 import { Loader } from '@/shared/ui/Loader'
@@ -15,14 +16,31 @@ import styles from './SearchPage.module.css'
  * @returns React компонент страницы поиска
  */
 const SearchPage: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [searchQuery, setSearchQuery] = useState('')
+
+  /**
+   * Инициализация поля поиска из URL параметров при загрузке
+   */
+  useEffect(() => {
+    const queryParam = searchParams.get('query')
+    if (queryParam) {
+      setSearchQuery(queryParam)
+    }
+  }, [searchParams])
 
   /**
    * Обработчик изменения текста в поле поиска
    * @param event событие изменения input
    */
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value)
+    const value = event.target.value
+    setSearchQuery(value)
+    if (value.trim()) {
+      setSearchParams({ query: value.trim() })
+    } else {
+      setSearchParams({})
+    }
   }
 
   // Поиск фильмов по запросу

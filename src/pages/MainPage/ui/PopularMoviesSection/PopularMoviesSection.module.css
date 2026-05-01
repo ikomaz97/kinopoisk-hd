@@ -1,0 +1,116 @@
+/**
+ * Стили для Popular Movies Section компонента
+ */
+
+/* Основной контейнер секции */
+.section {
+  margin-bottom: 60px;
+}
+
+/* Заголовок секции */
+.header {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Название секции */
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Текст загрузки */
+.loading {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+/* Текст ошибки */
+.error {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1rem;
+  color: #ff6b6b;
+}
+
+/* Футер секции с кнопкой */
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* Кнопка "View More" */
+.viewMoreButton {
+  padding: 14px 40px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 180px;
+}
+
+/* Hover состояние */
+.viewMoreButton:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.2);
+}
+
+/* Active состояние */
+.viewMoreButton:active {
+  transform: translateY(0);
+}
+
+/* Адаптивный дизайн для планшетов */
+@media (max-width: 768px) {
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .viewMoreButton {
+    padding: 12px 30px;
+    font-size: 0.9rem;
+    min-width: 140px;
+  }
+}
+
+/* Адаптивный дизайн для мобильных */
+@media (max-width: 480px) {
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .viewMoreButton {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+}
+
