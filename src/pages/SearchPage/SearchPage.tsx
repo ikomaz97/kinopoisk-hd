@@ -4,7 +4,6 @@
  */
 
 import type { FC, ChangeEvent } from 'react'
-import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useSearchMoviesQuery } from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
@@ -17,25 +16,17 @@ import styles from './SearchPage.module.css'
  */
 const SearchPage: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const [searchQuery, setSearchQuery] = useState('')
 
-  /**
-   * Инициализация поля поиска из URL параметров при загрузке
-   */
-  useEffect(() => {
-    const queryParam = searchParams.get('query')
-    if (queryParam) {
-      setSearchQuery(queryParam)
-    }
-  }, [searchParams])
+  // Получаем query напрямую из URL параметров
+  const searchQuery = searchParams.get('query') || ''
 
   /**
    * Обработчик изменения текста в поле поиска
+   * Обновляет URL параметр query
    * @param event событие изменения input
    */
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    setSearchQuery(value)
     if (value.trim()) {
       setSearchParams({ query: value.trim() })
     } else {
@@ -77,4 +68,3 @@ const SearchPage: FC = () => {
 }
 
 export default SearchPage
-
