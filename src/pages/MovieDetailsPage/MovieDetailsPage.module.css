@@ -248,6 +248,24 @@
   border-radius: 12px;
 }
 
+/* Секция похожих фильмов */
+.similarMoviesSection {
+  margin-top: 40px;
+}
+
+.similarMoviesTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+}
+
+.similarMoviesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
 /* Адаптивность для планшетов */
 @media (max-width: 968px) {
   .content {
@@ -310,5 +328,9 @@
 
   .actorCharacter {
     font-size: 0.75rem;
+  }
+
+  .similarMoviesSection {
+    margin-top: 20px;
   }
 }

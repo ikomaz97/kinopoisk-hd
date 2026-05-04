@@ -11,6 +11,7 @@ import { getBackdropUrl, getProfileUrl, getPosterUrl } from '@/shared/lib/image'
 import { Badge } from '@/shared/ui/Badge'
 import { Loader } from '@/shared/ui/Loader'
 import { FavoriteButton } from '@/features/favorites/ui'
+import { SimilarMoviesList } from '@/widgets/SimilarMoviesList'
 import styles from './MovieDetailsPage.module.css'
 
 /**
@@ -224,6 +225,12 @@ const MovieDetailsPage: FC = () => {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Список похожих фильмов */}
+        <div className={styles.similarMoviesSection}>
+          <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
+          <SimilarMoviesList movieId={movie.id} />
         </div>
       </div>
     </div>

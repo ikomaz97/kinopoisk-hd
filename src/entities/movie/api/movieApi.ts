@@ -157,6 +157,24 @@ export const movieApi = baseApi.injectEndpoints({
     }),
 
     /**
+     * Получить похожие фильмы по ID
+     * @param id ID фильма
+     * @returns список похожих фильмов
+     */
+    getSimilarMovies: builder.query<MovieSearchResult, number>({ query: (id) => ({
+      url: `/movie/${id}/similar`,
+      params: {
+        language: DEFAULT_LANGUAGE,
+        page: 1,
+      },
+      headers: {
+        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+      },
+    }),
+    transformResponse: (response) => SearchSchema.parse(response),
+    }),
+
+    /**
      * Получить фильмы с фильтрацией и сортировкой через discover API
      * Используется на странице фильтрации фильмов
      * @param параметры фильтрации и сортировки
@@ -224,4 +242,7 @@ export const {
   useGetMovieDetailsQuery,
   useDiscoverMoviesQuery,
   useGetGenresQuery,
+  useGetSimilarMoviesQuery,
 } = movieApi
+
+export type { MovieSearchResult } from '../model'

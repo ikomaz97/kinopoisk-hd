@@ -1,0 +1,20 @@
+/**
+ * Стили для виджета похожих фильмов
+ */
+
+.container {
+  padding: 24px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.noResults {
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: 40px;
+  font-size: 1rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}
+
