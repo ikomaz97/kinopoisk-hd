@@ -1,10 +1,15 @@
 /**
  * Главная страница приложения
- * Отображает популярные и лучшие фильмы
+ * Отображает четыре категории фильмов: популярные, лучшие, предстоящие и сейчас в прокате
  */
 
 import type { FC } from 'react'
-import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery } from '@/entities/movie/api'
+import {
+  useGetPopularMoviesQuery,
+  useGetTopRatedMoviesQuery,
+  useGetUpcomingMoviesQuery,
+  useGetNowPlayingMoviesQuery,
+} from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
 import { Loader } from '@/shared/ui/Loader'
 import styles from './MainPage.module.css'
@@ -19,6 +24,12 @@ const MainPage: FC = () => {
 
   // Получение лучших фильмов
   const { data: topRatedMovies, isLoading: topRatedLoading } = useGetTopRatedMoviesQuery(1)
+
+  // Получение предстоящих фильмов
+  const { data: upcomingMovies, isLoading: upcomingLoading } = useGetUpcomingMoviesQuery(1)
+
+  // Получение фильмов, которые сейчас в прокате
+  const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(1)
 
   return (
     <div className={styles.container}>
@@ -35,16 +46,40 @@ const MainPage: FC = () => {
       </section>
 
       {/* Секция лучших фильмов */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Лучшие фильмы</h2>
-        {topRatedLoading ? (
-          <Loader />
-        ) : topRatedMovies ? (
-          <MovieList movies={topRatedMovies} />
-        ) : (
-          <p>Не удалось загрузить лучшие фильмы</p>
-        )}
-      </section>
+       <section className={styles.section}>
+         <h2 className={styles.sectionTitle}>Лучшие фильмы</h2>
+         {topRatedLoading ? (
+           <Loader />
+         ) : topRatedMovies ? (
+           <MovieList movies={topRatedMovies} />
+         ) : (
+           <p>Не удалось загрузить лучшие фильмы</p>
+         )}
+       </section>
+
+       {/* Секция предстоящих фильмов */}
+       <section className={styles.section}>
+         <h2 className={styles.sectionTitle}>Предстоящие фильмы</h2>
+         {upcomingLoading ? (
+           <Loader />
+         ) : upcomingMovies ? (
+           <MovieList movies={upcomingMovies} />
+         ) : (
+           <p>Не удалось загрузить предстоящие фильмы</p>
+         )}
+       </section>
+
+       {/* Секция фильмов, которые сейчас в прокате */}
+       <section className={styles.section}>
+         <h2 className={styles.sectionTitle}>Сейчас в прокате</h2>
+         {nowPlayingLoading ? (
+           <Loader />
+         ) : nowPlayingMovies ? (
+           <MovieList movies={nowPlayingMovies} />
+         ) : (
+           <p>Не удалось загрузить фильмы в прокате</p>
+         )}
+       </section>
     </div>
   )
 }
