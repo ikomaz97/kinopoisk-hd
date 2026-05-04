@@ -4,6 +4,8 @@
  */
 
 import { Header } from '@/widgets/Header'
+import { Footer } from '@/widgets/Footer'
+import AppRouter from '@/app/routes/AppRouter'
 import styles from './App.module.css'
 
 /**
@@ -15,11 +17,9 @@ function App() {
     <div className={styles.app}>
       <Header />
       <main className={styles.main}>
-        <div className={styles.container}>
-          <h1>🎬 Добро пожаловать в Kinopoisk HD</h1>
-          <p>Используйте навигацию в Header для просмотра фильмов</p>
-        </div>
+        <AppRouter />
       </main>
+      <Footer />
     </div>
   )
 }

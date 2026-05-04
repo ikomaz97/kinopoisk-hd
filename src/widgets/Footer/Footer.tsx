@@ -15,7 +15,7 @@ const Footer: FC = () => {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <p className={styles.text}>
-          © {new Date().getFullYear()} Kinopoisk HD. Данные предоставлены TMDB.
+          © 2025 Kinopoisk Demo · Data courtesy of TMDB.
         </p>
       </div>
     </footer>
