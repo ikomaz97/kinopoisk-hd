@@ -4,8 +4,9 @@
 
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import type { FiltersState, SortByValue } from '@/features/filters'
+import type { FiltersState } from '@/features/filters'
 import { toggleGenre, setMinRating, setSortBy, setPage } from '@/features/filters'
+import type { SortByValue } from '@/shared/constants/genres'
 import type { RootState } from '@/app'
 import { getFromStorage, setToStorage } from '@/shared/lib/storage'
 
