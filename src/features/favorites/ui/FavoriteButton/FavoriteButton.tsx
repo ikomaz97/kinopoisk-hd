@@ -4,6 +4,7 @@
  */
 
 import type { FC } from 'react'
+import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '@/app/providers/StoreProvider'
 import { removeFromFavorites, addToFavorites } from '@/features/favorites/model/favoritesSlice'
@@ -18,6 +19,18 @@ export interface FavoriteButtonProps {
    */
   movieId: number
   /**
+   * Название фильма (для добавления в избранное)
+   */
+  title?: string
+  /**
+   * Путь к постеру (для добавления в избранное)
+   */
+  posterPath?: string | null
+  /**
+   * Рейтинг фильма (для добавления в избранное)
+   */
+  voteAverage?: number
+  /**
    * Дополнительные CSS классы
    */
   className?: string
@@ -26,26 +39,35 @@ export interface FavoriteButtonProps {
 /**
  * Кнопка добавления в избранное
  * @param movieId ID фильма
+ * @param title название фильма
+ * @param posterPath путь к постеру
+ * @param voteAverage рейтинг фильма
  * @param className дополнительные классы
  * @returns React компонент FavoriteButton
  */
-const FavoriteButton: FC<FavoriteButtonProps> = ({ movieId, className = '' }) => {
+const FavoriteButton: FC<FavoriteButtonProps> = ({
+  movieId,
+  title = 'Фильм',
+  posterPath = null,
+  voteAverage = 0,
+  className = ''
+}) => {
   const dispatch = useDispatch()
   const favorites = useSelector((state: RootState) => state.favorites.items)
   const isFavorite = favorites.some((item) => item.id === movieId)
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (isFavorite) {
       dispatch(removeFromFavorites(movieId))
     } else {
       dispatch(addToFavorites({
         id: movieId,
-        title: 'Фильм',
-        poster_path: null,
-        vote_average: 0,
+        title,
+        poster_path: posterPath,
+        vote_average: voteAverage,
       }))
     }
-  }
+  }, [isFavorite, movieId, title, posterPath, voteAverage, dispatch])
 
   return (
     <button

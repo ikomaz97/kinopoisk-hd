@@ -61,7 +61,13 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
       </Badge>
 
       {/* Кнопка добавления в избранное */}
-      <FavoriteButton movieId={movie.id} className={styles.favoriteButton} />
+      <FavoriteButton
+        movieId={movie.id}
+        title={movie.title}
+        posterPath={movie.poster_path}
+        voteAverage={movie.vote_average}
+        className={styles.favoriteButton}
+      />
     </Link>
   )
 }

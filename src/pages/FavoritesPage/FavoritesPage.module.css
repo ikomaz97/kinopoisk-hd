@@ -20,7 +20,19 @@
 .emptyMessage {
   color: var(--color-text-secondary);
   text-align: center;
-  padding: 40px;
+  padding: 60px 20px;
   font-size: 1.2rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+  line-height: 1.6;
 }
 
+/* Сообщение об ошибке */
+.errorMessage {
+  color: var(--color-error);
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.2rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}
