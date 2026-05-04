@@ -1,0 +1,56 @@
+/**
+ * Стили для компонента CategoryTabs
+ */
+
+/* Контейнер табов */
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+/* Кнопка вкладки */
+.tab {
+  padding: 10px 20px;
+  border: 2px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Кнопка вкладки при наведении */
+.tab:hover {
+  background-color: var(--color-hover);
+  border-color: var(--color-accent);
+}
+
+/* Активная кнопка вкладки */
+.tab.active {
+  background-color: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+/* Активная кнопка при наведении */
+.tab.active:hover {
+  opacity: 0.9;
+}
+
+/* Отзывчивый дизайн для мобильных */
+@media (max-width: 768px) {
+  .tabs {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .tab {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
