@@ -6,6 +6,7 @@
 import { Header } from '@/widgets/Header'
 import { Footer } from '@/widgets/Footer'
 import AppRouter from '@/app/routes/AppRouter'
+import { useTheme } from '@/features/theme'
 import styles from './App.module.css'
 
 /**
@@ -13,8 +14,10 @@ import styles from './App.module.css'
  * @returns React компонент приложения
  */
 function App() {
+  const { theme } = useTheme()
+
   return (
-    <div className={styles.app}>
+    <div className={`${styles.app} ${theme}-theme`}>
       <Header />
       <main className={styles.main}>
         <AppRouter />
@@ -25,4 +28,3 @@ function App() {
 }
 
 export default App
-
