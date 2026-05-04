@@ -4,7 +4,7 @@
  */
 
 import { baseApi } from '@/shared/api/baseApi'
-import type { Movie, MovieDetails, MovieSearchResult } from '../model'
+import type { MovieDetails, MovieSearchResult, MoviesWithPagination } from '../model'
 import { MovieDetailsSchema, SearchSchema } from '../model/schemas'
 import { DEFAULT_LANGUAGE, DEFAULT_REGION, TMDB_ACCESS_TOKEN } from '@/shared/constants/api'
 
@@ -16,9 +16,9 @@ export const movieApi = baseApi.injectEndpoints({
     /**
      * Получить популярные фильмы
      * @param page номер страницы
-     * @returns популярные фильмы
+     * @returns популярные фильмы с информацией о пагинации
      */
-    getPopularMovies: builder.query<Movie[], number | void>({ query: (page = 1) => ({
+    getPopularMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
       url: '/movie/popular',
       params: {
         page,
@@ -31,16 +31,20 @@ export const movieApi = baseApi.injectEndpoints({
     }),
     transformResponse: (response) => {
       const result = SearchSchema.parse(response)
-      return result.results
+      return {
+        movies: result.results,
+        totalPages: result.total_pages,
+        totalResults: result.total_results,
+      }
     },
     }),
 
     /**
      * Получить лучшие фильмы
      * @param page номер страницы
-     * @returns лучшие фильмы
+     * @returns лучшие фильмы с информацией о пагинации
      */
-    getTopRatedMovies: builder.query<Movie[], number | void>({ query: (page = 1) => ({
+    getTopRatedMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
       url: '/movie/top_rated',
       params: {
         page,
@@ -53,16 +57,20 @@ export const movieApi = baseApi.injectEndpoints({
     }),
     transformResponse: (response) => {
       const result = SearchSchema.parse(response)
-      return result.results
+      return {
+        movies: result.results,
+        totalPages: result.total_pages,
+        totalResults: result.total_results,
+      }
     },
     }),
 
     /**
      * Получить фильмы, которые сейчас в прокате
      * @param page номер страницы
-     * @returns фильмы в прокате
+     * @returns фильмы в прокате с информацией о пагинации
      */
-    getNowPlayingMovies: builder.query<Movie[], number | void>({ query: (page = 1) => ({
+    getNowPlayingMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
       url: '/movie/now_playing',
       params: {
         page,
@@ -75,16 +83,20 @@ export const movieApi = baseApi.injectEndpoints({
     }),
     transformResponse: (response) => {
       const result = SearchSchema.parse(response)
-      return result.results
+      return {
+        movies: result.results,
+        totalPages: result.total_pages,
+        totalResults: result.total_results,
+      }
     },
     }),
 
     /**
      * Получить предстоящие фильмы
      * @param page номер страницы
-     * @returns предстоящие фильмы
+     * @returns предстоящие фильмы с информацией о пагинации
      */
-    getUpcomingMovies: builder.query<Movie[], number | void>({ query: (page = 1) => ({
+    getUpcomingMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
       url: '/movie/upcoming',
       params: {
         page,
@@ -97,7 +109,11 @@ export const movieApi = baseApi.injectEndpoints({
     }),
     transformResponse: (response) => {
       const result = SearchSchema.parse(response)
-      return result.results
+      return {
+        movies: result.results,
+        totalPages: result.total_pages,
+        totalResults: result.total_results,
+      }
     },
     }),
 

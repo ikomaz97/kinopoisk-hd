@@ -60,3 +60,11 @@ export type MovieSearchResult = {
   results: Movie[]
 }
 
+/**
+ * Тип для возврата фильмов с информацией о пагинации
+ */
+export type MoviesWithPagination = {
+  movies: Movie[]
+  totalPages: number
+  totalResults: number
+}

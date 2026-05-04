@@ -1,13 +1,16 @@
 /**
  * Страница категорий фильмов
- * Отображает фильмы выбранной категории
+ * Отображает фильмы выбранной категории с возможностью смены категории и пагинации
  */
 
 import type { FC } from 'react'
-import { useParams } from 'react-router-dom'
+import { useCallback } from 'react'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import type { Movie } from '@/entities/movie'
 import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery, useGetNowPlayingMoviesQuery, useGetUpcomingMoviesQuery } from '@/entities/movie/api'
+import { CategoryTabs } from '@/widgets/CategoryTabs'
 import { MovieList } from '@/widgets/MovieList'
+import { Pagination } from '@/shared/ui/Pagination'
 import { Loader } from '@/shared/ui/Loader'
 import styles from './CategoryPage.module.css'
 
@@ -32,46 +35,90 @@ const CATEGORY_TITLES: Record<CategoryType, string> = {
  */
 const CategoryPage: FC = () => {
   const { type } = useParams<{ type: CategoryType }>()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
-  const category = type || 'popular'
+  // Получаем текущую категорию из URL параметра или устанавливаем 'popular' по умолчанию
+  const category = (type || 'popular') as CategoryType
+
+  // Получаем текущую страницу из query параметра или устанавливаем 1 по умолчанию
+  const currentPage = parseInt(searchParams.get('page') || '1', 10)
 
   // Все хуки вызываются в начале компонента (правило React Hooks)
-  const { data: popularMovies, isLoading: popularLoading } = useGetPopularMoviesQuery(1)
-  const { data: topRatedMovies, isLoading: topRatedLoading } = useGetTopRatedMoviesQuery(1)
-  const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(1)
-  const { data: upcomingMovies, isLoading: upcomingLoading } = useGetUpcomingMoviesQuery(1)
+  const { data: popularData, isLoading: popularLoading } = useGetPopularMoviesQuery(currentPage)
+  const { data: topRatedData, isLoading: topRatedLoading } = useGetTopRatedMoviesQuery(currentPage)
+  const { data: nowPlayingData, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(currentPage)
+  const { data: upcomingData, isLoading: upcomingLoading } = useGetUpcomingMoviesQuery(currentPage)
 
-  // Выбор данных в зависимости от категории
+  /**
+   * Обработчик смены категории
+   * Навигирует на выбранную категорию с параметром page=1
+   */
+  const handleCategoryChange = useCallback(
+    (newCategory: CategoryType) => {
+      navigate(`/category/${newCategory}?page=1`)
+    },
+    [navigate]
+  )
+
+  /**
+   * Обработчик смены страницы
+   * Обновляет query параметр page в URL
+   */
+  const handlePageChange = useCallback(
+    (page: number) => {
+      navigate(`/category/${category}?page=${page}`)
+      // Прокручиваем к нача��у страницы
+      window.scrollTo(0, 0)
+    },
+    [navigate, category]
+  )
+
+  // Выбираем данные, загрузку и информацию о пагинации в зависимости от категории
   let movies: Movie[] | undefined
   let isLoading = false
+  let totalPages = 0
 
   switch (category) {
     case 'popular':
-      movies = popularMovies
+      movies = popularData?.movies
       isLoading = popularLoading
+      totalPages = popularData?.totalPages || 0
       break
     case 'top_rated':
-      movies = topRatedMovies
+      movies = topRatedData?.movies
       isLoading = topRatedLoading
+      totalPages = topRatedData?.totalPages || 0
       break
     case 'now_playing':
-      movies = nowPlayingMovies
+      movies = nowPlayingData?.movies
       isLoading = nowPlayingLoading
+      totalPages = nowPlayingData?.totalPages || 0
       break
     case 'upcoming':
-      movies = upcomingMovies
+      movies = upcomingData?.movies
       isLoading = upcomingLoading
+      totalPages = upcomingData?.totalPages || 0
       break
   }
 
   return (
     <div className={styles.container}>
+      {/* Компонент выбора категорий */}
+      <CategoryTabs activeCategory={category} onCategoryChange={handleCategoryChange} />
+
+      {/* Заголовок категории */}
       <h1 className={styles.pageTitle}>{CATEGORY_TITLES[category]}</h1>
 
+      {/* Контент страницы */}
       {isLoading ? (
         <Loader />
       ) : movies && movies.length > 0 ? (
-        <MovieList movies={movies} />
+        <>
+          <MovieList movies={movies} />
+          {/* Компонент пагинации */}
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        </>
       ) : (
         <p className={styles.error}>Не удалось загрузить фильмы</p>
       )}

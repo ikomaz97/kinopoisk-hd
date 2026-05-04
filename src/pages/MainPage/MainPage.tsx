@@ -39,7 +39,7 @@ const MainPage: FC = () => {
         {popularLoading ? (
           <Loader />
         ) : popularMovies ? (
-          <MovieList movies={popularMovies} />
+          <MovieList movies={popularMovies.movies} />
         ) : (
           <p>Не удалось загрузить популярные фильмы</p>
         )}
@@ -51,7 +51,7 @@ const MainPage: FC = () => {
          {topRatedLoading ? (
            <Loader />
          ) : topRatedMovies ? (
-           <MovieList movies={topRatedMovies} />
+           <MovieList movies={topRatedMovies.movies} />
          ) : (
            <p>Не удалось загрузить лучшие фильмы</p>
          )}
@@ -63,7 +63,7 @@ const MainPage: FC = () => {
          {upcomingLoading ? (
            <Loader />
          ) : upcomingMovies ? (
-           <MovieList movies={upcomingMovies} />
+           <MovieList movies={upcomingMovies.movies} />
          ) : (
            <p>Не удалось загрузить предстоящие фильмы</p>
          )}
@@ -75,7 +75,7 @@ const MainPage: FC = () => {
          {nowPlayingLoading ? (
            <Loader />
          ) : nowPlayingMovies ? (
-           <MovieList movies={nowPlayingMovies} />
+           <MovieList movies={nowPlayingMovies.movies} />
          ) : (
            <p>Не удалось загрузить фильмы в прокате</p>
          )}
