@@ -183,9 +183,9 @@ const MovieDetailsPage: FC = () => {
           {/* Актеры */}
           {movie.credits && movie.credits.cast && movie.credits.cast.length > 0 && (
             <div className={styles.infoRow}>
-              <h2 className={styles.sectionTitle}>В ролях</h2>
+              <h2 className={styles.sectionTitle}>В главных ролях</h2>
               <div className={styles.cast}>
-                {movie.credits.cast.slice(0, 10).map((actor: { id: number; name: string; character: string; profile_path: string | null }) => (
+                {movie.credits.cast.slice(0, 6).map((actor: { id: number; name: string; character: string; profile_path: string | null }) => (
                   <div key={actor.id} className={styles.actor}>
                     <img
                       src={getProfileUrl(actor.profile_path)}
