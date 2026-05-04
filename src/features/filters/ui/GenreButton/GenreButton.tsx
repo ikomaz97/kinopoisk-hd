@@ -4,7 +4,7 @@
  */
 
 import type { FC } from 'react'
-import { GENRES } from '@/shared/constants/genres'
+import type { Genre } from '@/entities/movie'
 import styles from './GenreButton.module.css'
 
 /**
@@ -12,9 +12,9 @@ import styles from './GenreButton.module.css'
  */
 export interface GenreButtonProps {
   /**
-   * ID жанра
+   * Жанр для отображения
    */
-  genreId: number
+  genre: Genre
 
   /**
    * Выбранные жанры
@@ -29,22 +29,20 @@ export interface GenreButtonProps {
 
 /**
  * Кнопка выбора жанра
- * @param genreId ID жанра
+ * @param genre жанр для отображения
  * @param selectedGenreIds массив выбранных жанров
  * @param onToggle обработчик переключения
  * @returns React компонент GenreButton
  */
-export const GenreButton: FC<GenreButtonProps> = ({ genreId, selectedGenreIds, onToggle }) => {
-  const genre = GENRES.find((g) => g.id === genreId)
-  if (!genre) return null
-
-  const isSelected = selectedGenreIds.includes(genreId)
+export const GenreButton: FC<GenreButtonProps> = ({ genre, selectedGenreIds, onToggle }) => {
+  const isSelected = selectedGenreIds.includes(genre.id)
 
   return (
     <button
       className={`${styles.button} ${isSelected ? styles.selected : ''}`}
-      onClick={() => onToggle(genreId)}
+      onClick={() => onToggle(genre.id)}
       type="button"
+      aria-pressed={isSelected}
     >
       {genre.name}
     </button>

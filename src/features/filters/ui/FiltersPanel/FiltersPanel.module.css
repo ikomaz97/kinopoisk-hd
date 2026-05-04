@@ -95,13 +95,6 @@
   color: white;
 }
 
-/* Сообщение о выборе жанров */
-.noSelection {
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
-  font-style: italic;
-}
-
 /* Кнопка сброса */
 .resetButton {
   width: 100%;
@@ -121,3 +114,31 @@
   color: var(--color-text-primary);
 }
 
+/* Индикатор загрузки жанров */
+.loading {
+  padding: 12px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+/* Сообщение об ошибке загрузки жанров */
+.error {
+  padding: 12px;
+  text-align: center;
+  color: var(--color-error);
+  font-size: 0.9rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+}
+
+/* Сообщение о отсутствии жанров */
+.noSelection {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  padding: 12px;
+  text-align: center;
+}

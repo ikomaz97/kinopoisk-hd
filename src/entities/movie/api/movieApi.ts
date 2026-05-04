@@ -4,8 +4,8 @@
  */
 
 import { baseApi } from '@/shared/api/baseApi'
-import type { MovieDetails, MovieSearchResult, MoviesWithPagination } from '../model'
-import { MovieDetailsSchema, SearchSchema } from '../model/schemas'
+import type { MovieDetails, MovieSearchResult, MoviesWithPagination, GenreListResponse } from '../model'
+import { MovieDetailsSchema, SearchSchema, GenreListSchema } from '../model/schemas'
 import { DEFAULT_LANGUAGE, DEFAULT_REGION, TMDB_ACCESS_TOKEN } from '@/shared/constants/api'
 
 /**
@@ -193,6 +193,25 @@ export const movieApi = baseApi.injectEndpoints({
         }
       },
     }),
+
+    /**
+     * Получить список жанров фильмов
+     * Используется для отображения кнопок фильтрации по жанрам
+     * @returns список жанров
+     */
+    getGenres: builder.query<GenreListResponse, void>({
+      query: () => ({
+        url: '/genre/movie/list',
+        params: {
+          language: DEFAULT_LANGUAGE,
+        },
+        headers: {
+          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+        },
+      }),
+      transformResponse: (response) => GenreListSchema.parse(response),
+    }),
+
   }),
 })
 
@@ -204,4 +223,5 @@ export const {
   useSearchMoviesQuery,
   useGetMovieDetailsQuery,
   useDiscoverMoviesQuery,
+  useGetGenresQuery,
 } = movieApi

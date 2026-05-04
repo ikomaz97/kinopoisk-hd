@@ -30,6 +30,21 @@ export const SearchSchema = z.object({
 })
 
 /**
+ * Схема жанра
+ */
+export const GenreSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+})
+
+/**
+ * Схема ответа со списком жанров
+ */
+export const GenreListSchema = z.object({
+  genres: z.array(GenreSchema),
+})
+
+/**
  * Схема деталей фильма
  */
 export const MovieDetailsSchema = z.object({

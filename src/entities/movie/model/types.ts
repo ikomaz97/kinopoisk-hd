@@ -68,3 +68,18 @@ export type MoviesWithPagination = {
   totalPages: number
   totalResults: number
 }
+
+/**
+ * Тип жанра из TMDB API
+ */
+export type Genre = {
+  id: number
+  name: string
+}
+
+/**
+ * Ответ API с списком жанров
+ */
+export type GenreListResponse = {
+  genres: Genre[]
+}
