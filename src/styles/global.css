@@ -52,6 +52,10 @@ img {
   --color-accent: #6366f1;
   --color-error: #ef4444;
   --color-success: #22c55e;
+
+  /* Основные цвета кнопок */
+  --color-primary: var(--color-accent);
+  --color-secondary: #6b7280; /* серый как fallback */
 }
 
 /* Светлая тема */
