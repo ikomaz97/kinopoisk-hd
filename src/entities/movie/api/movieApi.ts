@@ -155,6 +155,44 @@ export const movieApi = baseApi.injectEndpoints({
     }),
     transformResponse: (response) => MovieDetailsSchema.parse(response),
     }),
+
+    /**
+     * Получить фильмы с фильтрацией и сортировкой через discover API
+     * Используется на странице фильтрации фильмов
+     * @param параметры фильтрации и сортировки
+     * @returns фильмы с информацией о пагинации
+     */
+    discoverMovies: builder.query<MoviesWithPagination, {
+      genreIds: number[]
+      minRating: number
+      sortBy: string
+      page: number
+    }>({
+      query: ({ genreIds, minRating, sortBy, page = 1 }) => ({
+        url: '/discover/movie',
+        params: {
+          page,
+          language: DEFAULT_LANGUAGE,
+          region: DEFAULT_REGION,
+          include_adult: false,
+          include_video: false,
+          'with_genres': genreIds.length > 0 ? genreIds.join('|') : undefined,
+          'vote_average.gte': minRating > 0 ? minRating : undefined,
+          sort_by: sortBy,
+        },
+        headers: {
+          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
+        },
+      }),
+      transformResponse: (response) => {
+        const result = SearchSchema.parse(response)
+        return {
+          movies: result.results,
+          totalPages: result.total_pages,
+          totalResults: result.total_results,
+        }
+      },
+    }),
   }),
 })
 
@@ -165,5 +203,5 @@ export const {
   useGetUpcomingMoviesQuery,
   useSearchMoviesQuery,
   useGetMovieDetailsQuery,
+  useDiscoverMoviesQuery,
 } = movieApi
-

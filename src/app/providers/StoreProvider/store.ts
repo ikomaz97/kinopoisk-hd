@@ -7,6 +7,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { themeReducer } from '@/features/theme'
 import { baseApi } from '@/shared/api/baseApi'
 import { favoritesReducer } from '@/features/favorites'
+import { filtersSlice } from '@/features/filters'
 
 /**
  * Redux Store
@@ -22,6 +23,10 @@ export const store = configureStore({
      * Редьюсер для управления избранными фильмами
      */
     favorites: favoritesReducer,
+    /**
+     * Редьюсер для управления фильтрами и сортировкой
+     */
+    filters: filtersSlice.reducer,
     /**
      * Редьюсер RTK Query для API
      */

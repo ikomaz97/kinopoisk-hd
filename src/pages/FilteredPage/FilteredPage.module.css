@@ -1,5 +1,5 @@
 /**
- * Стили страницы Filtered
+ * Стили страницы фильтрации фильмов
  */
 
 /* Контейнер страницы */
@@ -16,11 +16,34 @@
   color: var(--color-text-primary);
 }
 
-/* Сообщение о том, что страница в разработке */
-.comingSoon {
-  color: var(--color-text-secondary);
-  text-align: center;
-  padding: 40px;
-  font-size: 1.2rem;
+/* Контент страницы */
+.content {
+  display: flex;
+  gap: 30px;
 }
 
+/* Основная область контента */
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Сообщение об ошибке */
+.error {
+  padding: 40px;
+  text-align: center;
+  color: var(--color-error);
+  font-size: 1.1rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}
+
+/* Сообщение об отсутствии результатов */
+.noResults {
+  padding: 40px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+}

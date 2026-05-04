@@ -6,6 +6,33 @@
 const FAVORITES_KEY = 'favorites'
 
 /**
+ * Получить данные из localStorage по ключу
+ * @param key ключ localStorage
+ * @returns распарсенные данные или undefined
+ */
+export const getFromStorage = <T,>(key: string): T | undefined => {
+  try {
+    const data = localStorage.getItem(key)
+    return data ? (JSON.parse(data) as T) : undefined
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * Сохранить данные в localStorage по ключу
+ * @param key ключ localStorage
+ * @param data данные для сохранения
+ */
+export const setToStorage = <T,>(key: string, data: T): void => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data))
+  } catch (error) {
+    console.error(`Ошибка сохранения в localStorage для ключа "${key}":`, error)
+  }
+}
+
+/**
  * Получить список избранных фильмов из localStorage
  * @returns массив избранных фильмов
  */
@@ -41,4 +68,3 @@ export const saveFavorites = (
     console.error('Ошибка сохранения избранных:', error)
   }
 }
-

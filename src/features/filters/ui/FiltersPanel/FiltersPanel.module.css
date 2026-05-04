@@ -1,0 +1,123 @@
+/**
+ * Стили для панели фильтров
+ */
+
+/* Контейнер панели фильтров */
+.filtersPanel {
+  width: 280px;
+  padding: 20px;
+  background-color: var(--color-bg-secondary);
+  border-radius: 12px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+/* Заголовок панели */
+.panelTitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--color-text-primary);
+}
+
+/* Секция фильтра */
+.filterSection {
+  margin-bottom: 24px;
+}
+
+/* Метка фильтра */
+.label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+/* Селект сортировки */
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.select:hover {
+  border-color: var(--color-accent);
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Заголовок секции жанров */
+.sectionTitle {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--color-text-primary);
+}
+
+/* Кнопки жанров */
+.genreButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Кнопка жанра */
+.button {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+/* Выбранная кнопка жанра */
+.selected {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
+/* Сообщение о выборе жанров */
+.noSelection {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Кнопка сброса */
+.resetButton {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resetButton:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+

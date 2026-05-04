@@ -1,0 +1,28 @@
+/**
+ * Стили для кнопки жанра
+ */
+
+/* Кнопка жанра */
+.button {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+}
+
+/* Выбранная кнопка жанра */
+.selected {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: white;
+}
+
