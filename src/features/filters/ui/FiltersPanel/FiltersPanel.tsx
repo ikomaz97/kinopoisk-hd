@@ -8,7 +8,7 @@ import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app'
 import type { FiltersState } from '@/features/filters'
-import { toggleGenre, setMinRating, setSortBy, resetFilters } from '@/features/filters'
+import { toggleGenre, setMinRating, setSortBy } from '@/features/filters'
 import type { Genre, GenreListResponse } from '@/entities/movie'
 import { useGetGenresQuery } from '@/entities/movie/api'
 import type { SortByValue } from '@/shared/constants/genres'
@@ -70,11 +70,11 @@ export const FiltersPanel: FC<FiltersPanelProps> = ({ onReset }) => {
 
   /**
    * Обработчик сброса фильтров
+   * Вызывает callback родителя для выполнения сброса
    */
   const handleReset = useCallback(() => {
-    dispatch(resetFilters())
     onReset?.()
-  }, [dispatch, onReset])
+  }, [onReset])
 
   return (
     <aside className={styles.filtersPanel}>
@@ -132,7 +132,10 @@ export const FiltersPanel: FC<FiltersPanelProps> = ({ onReset }) => {
 
       {/* Кнопка сброса */}
       <button onClick={handleReset} className={styles.resetButton} type="button">
-        Сбросить фильтры
+        <svg className={styles.icon} aria-hidden="true">
+          <use href="/icons.svg#refresh-icon" />
+        </svg>
+        <span>Сбросить фильтры</span>
       </button>
     </aside>
   )
