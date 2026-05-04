@@ -1,0 +1,35 @@
+/**
+ * Стили для кнопки избранного
+ */
+
+/* Кнопка */
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 8px;
+  transition: transform 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+/* Активное состояние */
+.active {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+

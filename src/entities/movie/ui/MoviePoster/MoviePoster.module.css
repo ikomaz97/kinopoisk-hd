@@ -1,0 +1,10 @@
+/**
+ * Стили для компонента MoviePoster
+ */
+
+.poster {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+

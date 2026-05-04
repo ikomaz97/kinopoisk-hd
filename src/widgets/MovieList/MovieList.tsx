@@ -5,6 +5,7 @@
 
 import type { FC } from 'react'
 import type { Movie } from '@/entities/movie'
+import { MovieCard } from '@/entities/movie/ui'
 import styles from './MovieList.module.css'
 
 /**
@@ -27,23 +28,15 @@ const MovieList: FC<MovieListProps> = ({ movies }) => {
   return (
     <div className={styles.movieList}>
       {movies.map((movie) => (
-        <div key={movie.id} className={styles.movieCard}>
-          <img
-            src={movie.poster_path
-              ? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-              : 'https://placehold.co/300x450?text=No+Poster'
-            }
-            alt={movie.title}
-            className={styles.poster}
-          />
-          <h3 className={styles.title}>{movie.title}</h3>
-          <p className={styles.releaseDate}>
-            {new Date(movie.release_date).getFullYear()}
-          </p>
-          <span className={styles.rating}>
-            ⭐ {movie.vote_average.toFixed(1)}
-          </span>
-        </div>
+        <MovieCard
+          key={movie.id}
+          movie={{
+            id: movie.id,
+            title: movie.title,
+            poster_path: movie.poster_path,
+            vote_average: movie.vote_average,
+          }}
+        />
       ))}
     </div>
   )

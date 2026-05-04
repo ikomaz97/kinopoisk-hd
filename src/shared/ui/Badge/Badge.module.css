@@ -1,0 +1,34 @@
+/**
+ * Стили для компонента Badge
+ */
+
+/* Бейдж */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Зелёный вариант */
+.green {
+  background-color: #10b981;
+  color: white;
+}
+
+/* Жёлтый вариант */
+.yellow {
+  background-color: #f59e0b;
+  color: white;
+}
+
+/* Красный вариант */
+.red {
+  background-color: #ef4444;
+  color: white;
+}
+

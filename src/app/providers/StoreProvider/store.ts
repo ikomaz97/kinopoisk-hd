@@ -6,6 +6,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { themeReducer } from '@/features/theme'
 import { baseApi } from '@/shared/api/baseApi'
+import { favoritesReducer } from '@/features/favorites'
 
 /**
  * Redux Store
@@ -17,6 +18,10 @@ export const store = configureStore({
      * Редьюсер для управления темой приложения
      */
     theme: themeReducer,
+    /**
+     * Редьюсер для управления избранными фильмами
+     */
+    favorites: favoritesReducer,
     /**
      * Редьюсер RTK Query для API
      */
@@ -37,4 +42,3 @@ export type RootState = ReturnType<typeof store.getState>
  * AppDispatch тип - для типизации dispatch функции
  */
 export type AppDispatch = typeof store.dispatch
-

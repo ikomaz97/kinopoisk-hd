@@ -1,0 +1,6 @@
+/**
+ * Экспорт компонента Badge
+ */
+
+export { default as Badge } from './Badge'
+export type { BadgeProps } from './Badge'
