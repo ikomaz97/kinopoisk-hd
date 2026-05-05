@@ -45,6 +45,26 @@ export const GenreListSchema = z.object({
 })
 
 /**
+ * Схема члена актёрского состава
+ */
+const CastMemberSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  character: z.string(),
+  profile_path: z.string().nullable(),
+})
+
+/**
+ * Схема члена экипажа
+ */
+const CrewMemberSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  job: z.string(),
+  profile_path: z.string().nullable(),
+})
+
+/**
  * Схема деталей фильма
  */
 export const MovieDetailsSchema = z.object({
@@ -57,27 +77,13 @@ export const MovieDetailsSchema = z.object({
   vote_average: z.number(),
   vote_count: z.number(),
   runtime: z.number(),
-  genres: z.array(z.object({ id: z.number(), name: z.string() })),
+  genres: z.array(GenreSchema),
   production_companies: z.array(z.object({ id: z.number(), name: z.string() })),
   production_countries: z.array(z.object({ iso_3166_1: z.string(), name: z.string() })),
   spoken_languages: z.array(z.object({ iso_639_1: z.string(), name: z.string() })),
   credits: z.object({
-    cast: z.array(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        character: z.string(),
-        profile_path: z.string().nullable(),
-      })
-    ),
-    crew: z.array(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        job: z.string(),
-        profile_path: z.string().nullable(),
-      })
-    ),
+    cast: z.array(CastMemberSchema),
+    crew: z.array(CrewMemberSchema),
   }),
   videos: z.object({
     results: z.array(

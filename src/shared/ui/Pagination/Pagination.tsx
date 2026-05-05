@@ -1,10 +1,11 @@
 /**
  * Компонент пагинации для навигации по страницам
  * Отображает кнопки Назад/Вперед и номер текущей страницы
+ * Мемоизирован для оптимизации перерисовок
  */
 
 import type { FC } from 'react'
-import { useCallback } from 'react'
+import { useCallback, memo } from 'react'
 import styles from './Pagination.module.css'
 
 /**
@@ -28,6 +29,7 @@ interface PaginationProps {
 /**
  * Компонент пагинации
  * Отображает кнопки "Назад" и "Вперед" для навигации по страницам фильмов
+ * Мемоизирован для предотвращения ненужных перерисовок
  * @param currentPage текущая страница
  * @param totalPages всего страниц
  * @param onPageChange колбэк при смене страницы
@@ -79,5 +81,5 @@ const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange
   )
 }
 
-export default Pagination
+export default memo(Pagination)
 

@@ -14,3 +14,4 @@ export {
   useGetGenresQuery,
   useGetSimilarMoviesQuery,
 } from './movieApi'
+export { useMoviesByCategory, type CategoryType } from './useMoviesByCategory'

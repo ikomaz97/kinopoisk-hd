@@ -36,8 +36,28 @@ export const BACKDROP_SIZES = {
   original: 'original',
 } as const
 
-/** Токен доступа к TMDB API из переменных окружения */
+/**
+ * Токен доступа к TMDB API из переменных окружения
+ * ВАЖНО: должен быть задан в .env.local (VITE_TMDB_ACCESS_TOKEN)
+ */
 export const TMDB_ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN as string
+
+/**
+ * Проверяем наличие токена и логируем ошибку при разработке
+ * Это поможет быстро выявить конфигурационные ошибки
+ */
+if (!TMDB_ACCESS_TOKEN) {
+  const errorMessage =
+    'Ошибка конфигурации: VITE_TMDB_ACCESS_TOKEN не установлен в переменных окружения. ' +
+    'Пожалуйста, создайте файл .env.local и добавьте: VITE_TMDB_ACCESS_TOKEN=your_token_here'
+
+  console.error(errorMessage)
+
+  // При разработке выбросим ошибку для немедленного обнаружения проблемы
+  if (import.meta.env.DEV) {
+    throw new Error(errorMessage)
+  }
+}
 
 /** Язык запросов по умолчанию */
 export const DEFAULT_LANGUAGE = 'ru-RU'

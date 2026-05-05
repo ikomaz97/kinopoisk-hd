@@ -25,8 +25,9 @@ const SimilarMoviesList: FC<{ movieId: number }> = ({ movieId }) => {
     return <p className={styles.noResults}>Похожие фильмы не найдены</p>
   }
 
-  // Отображаем минимум 6 фильмов
-  const moviesToShow = similarMovies.results.slice(0, Math.max(6, similarMovies.results.length))
+  // ПРАВИЛЬНО: показываем не более 6 фильмов или все если их меньше
+  // Math.min гарантирует, что мы не выйдем за пределы массива
+  const moviesToShow = similarMovies.results.slice(0, Math.min(6, similarMovies.results.length))
 
   return (
     <div className={styles.container}>

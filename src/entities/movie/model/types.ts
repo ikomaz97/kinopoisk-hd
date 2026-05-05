@@ -14,6 +14,58 @@ export type Movie = {
   genre_ids?: number[]
 }
 
+/**
+ * Тип актёра из credits
+ */
+export type CastMember = {
+  id: number
+  name: string
+  character: string
+  profile_path: string | null
+}
+
+/**
+ * Тип члена экипажа (режиссёр, сценарист и т.д.)
+ */
+export type CrewMember = {
+  id: number
+  name: string
+  job: string
+  profile_path: string | null
+}
+
+/**
+ * Тип жанра
+ */
+export type GenreInfo = {
+  id: number
+  name: string
+}
+
+/**
+ * Тип страны производства
+ */
+export type ProductionCountry = {
+  iso_3166_1: string
+  name: string
+}
+
+/**
+ * Тип языка
+ */
+export type SpokenLanguage = {
+  iso_639_1: string
+  name: string
+}
+
+/**
+ * Тип компании-производителя
+ */
+export type ProductionCompany = {
+  id: number
+  name: string
+}
+
 export type MovieDetails = {
   id: number
   title: string
@@ -24,23 +76,13 @@ export type MovieDetails = {
   vote_average: number
   vote_count: number
   runtime: number
-  genres: { id: number; name: string }[]
-  production_companies: { id: number; name: string }[]
-  production_countries: { iso_3166_1: string; name: string }[]
-  spoken_languages: { iso_639_1: string; name: string }[]
+  genres: GenreInfo[]
+  production_companies: ProductionCompany[]
+  production_countries: ProductionCountry[]
+  spoken_languages: SpokenLanguage[]
   credits: {
-    cast: {
-      id: number
-      name: string
-      character: string
-      profile_path: string | null
-    }[]
-    crew: {
-      id: number
-      name: string
-      job: string
-      profile_path: string | null
-    }[]
+    cast: CastMember[]
+    crew: CrewMember[]
   }
   videos: {
     results: {

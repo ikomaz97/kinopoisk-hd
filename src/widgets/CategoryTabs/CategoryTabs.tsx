@@ -1,10 +1,11 @@
 /**
  * Компонент категоризации фильмов
  * Отображает кнопки для переключения между различными категориями
+ * Мемоизирован для оптимизации перерисовок
  */
 
 import type { FC } from 'react'
-import { useCallback } from 'react'
+import { useCallback, useMemo, memo } from 'react'
 import styles from './CategoryTabs.module.css'
 
 /**
@@ -39,6 +40,7 @@ interface CategoryTabsProps {
 /**
  * Компонент категоризации фильмов
  * Отображает 4 кнопки для выбора категории и визуально выделяет активную
+ * Мемоизирован для предотвращения ненужных перерисовок
  * @param activeCategory текущая активная категория
  * @param onCategoryChange колбэк при смене категории
  * @returns React компонент CategoryTabs
@@ -55,7 +57,11 @@ const CategoryTabs: FC<CategoryTabsProps> = ({ activeCategory, onCategoryChange 
     [onCategoryChange]
   )
 
-  const categories: CategoryType[] = ['popular', 'top_rated', 'now_playing', 'upcoming']
+  // Мемоизируем список категорий, который не меняется
+  const categories = useMemo(
+    () => ['popular', 'top_rated', 'now_playing', 'upcoming'] as const,
+    []
+  )
 
   return (
     <div className={styles.tabs}>
@@ -74,5 +80,5 @@ const CategoryTabs: FC<CategoryTabsProps> = ({ activeCategory, onCategoryChange 
   )
 }
 
-export default CategoryTabs
+export default memo(CategoryTabs)
 

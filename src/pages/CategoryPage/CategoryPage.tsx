@@ -6,8 +6,7 @@
 import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import type { Movie } from '@/entities/movie'
-import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery, useGetNowPlayingMoviesQuery, useGetUpcomingMoviesQuery } from '@/entities/movie/api'
+import { useMoviesByCategory, type CategoryType } from '@/entities/movie/api'
 import { CategoryTabs } from '@/widgets/CategoryTabs'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
@@ -15,10 +14,6 @@ import { LinearProgress } from '@/shared/ui/Loader'
 import Skeleton from '@mui/material/Skeleton'
 import styles from './CategoryPage.module.css'
 
-/**
- * Типы категорий фильмов
- */
-type CategoryType = 'popular' | 'top_rated' | 'now_playing' | 'upcoming'
 
 /**
  * Маппинг категорий на русские названия
@@ -45,11 +40,9 @@ const CategoryPage: FC = () => {
   // Получаем текущую страницу из query параметра или устанавливаем 1 по умолчанию
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
 
-  // Все хуки вызываются в начале компонента (правило React Hooks)
-  const { data: popularData, isLoading: popularLoading, isFetching: popularFetching } = useGetPopularMoviesQuery(currentPage)
-  const { data: topRatedData, isLoading: topRatedLoading, isFetching: topRatedFetching } = useGetTopRatedMoviesQuery(currentPage)
-  const { data: nowPlayingData, isLoading: nowPlayingLoading, isFetching: nowPlayingFetching } = useGetNowPlayingMoviesQuery(currentPage)
-  const { data: upcomingData, isLoading: upcomingLoading, isFetching: upcomingFetching } = useGetUpcomingMoviesQuery(currentPage)
+  // Загружаем ТОЛЬКО нужную категорию вместо всех 4 эндпоинтов
+  // Это значительно оптимизирует производительность и снижает нагрузку на API
+  const { data, isLoading, error, isFetching } = useMoviesByCategory(category, currentPage)
 
   /**
    * Обработчик смены категории
@@ -75,38 +68,6 @@ const CategoryPage: FC = () => {
     [navigate, category]
   )
 
-  // Выбираем данные, загрузку и информацию о пагинации в зависимости от категории
-  let movies: Movie[] | undefined
-  let isLoading = false
-  let isFetching = false
-  let totalPages = 0
-
-  switch (category) {
-    case 'popular':
-      movies = popularData?.movies
-      isLoading = popularLoading
-      isFetching = popularFetching
-      totalPages = popularData?.totalPages || 0
-      break
-    case 'top_rated':
-      movies = topRatedData?.movies
-      isLoading = topRatedLoading
-      isFetching = topRatedFetching
-      totalPages = topRatedData?.totalPages || 0
-      break
-    case 'now_playing':
-      movies = nowPlayingData?.movies
-      isLoading = nowPlayingLoading
-      isFetching = nowPlayingFetching
-      totalPages = nowPlayingData?.totalPages || 0
-      break
-    case 'upcoming':
-      movies = upcomingData?.movies
-      isLoading = upcomingLoading
-      isFetching = upcomingFetching
-      totalPages = upcomingData?.totalPages || 0
-      break
-  }
 
   return (
     <div className={styles.container}>
@@ -122,12 +83,16 @@ const CategoryPage: FC = () => {
           <Skeleton variant="text" sx={{ fontSize: '2rem', mb: 2 }} />
           <Skeleton variant="rectangular" width="100%" height={300} />
         </>
-      ) : movies && movies.length > 0 ? (
+      ) : error ? (
+        <p className={styles.error}>Ошибка при загрузке фильмов. Попробуйте позже.</p>
+      ) : data && data.movies.length > 0 ? (
         <>
-          <MovieList movies={movies} />
+          <MovieList movies={data.movies} />
           {isFetching && <LinearProgress />}
           {/* Компонент пагинации */}
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+          {data.totalPages > 1 && (
+            <Pagination currentPage={currentPage} totalPages={data.totalPages} onPageChange={handlePageChange} />
+          )}
         </>
       ) : (
         <p className={styles.error}>Не удалось загрузить фильмы</p>

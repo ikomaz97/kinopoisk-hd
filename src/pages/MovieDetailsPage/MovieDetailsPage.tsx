@@ -7,6 +7,7 @@ import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useGetMovieDetailsQuery } from '@/entities/movie/api'
+import type { CastMember, CrewMember } from '@/entities/movie'
 import { getBackdropUrl, getProfileUrl, getPosterUrl } from '@/shared/lib/image'
 import { Badge } from '@/shared/ui/Badge'
 import { Loader } from '@/shared/ui/Loader'
@@ -20,12 +21,15 @@ import styles from './MovieDetailsPage.module.css'
  */
 const MovieDetailsPage: FC = () => {
   const { id } = useParams<{ id: string }>()
-
   const navigate = useNavigate()
 
-  // Загружаем детали фильма
-  const { data: movie, isLoading, error } = useGetMovieDetailsQuery(Number(id), {
-    skip: !id,
+  // Валидируем ID как положительное целое число
+  const movieId = id ? parseInt(id, 10) : null
+  const isValidId = movieId !== null && !isNaN(movieId) && movieId > 0
+
+  // Загружаем детали фильма только если ID валиден
+  const { data: movie, isLoading, error } = useGetMovieDetailsQuery(movieId || 0, {
+    skip: !isValidId,
   })
 
   /**
@@ -38,7 +42,7 @@ const MovieDetailsPage: FC = () => {
   /**
    * Форматирует дату выпуска
    */
-  const formatDate = (dateString: string): string => {
+  const formatDate = useCallback((dateString: string): string => {
     if (!dateString) return 'Неизвестно'
     const date = new Date(dateString)
     return date.toLocaleDateString('ru-RU', {
@@ -46,18 +50,32 @@ const MovieDetailsPage: FC = () => {
       month: 'long',
       day: 'numeric',
     })
-  }
+  }, [])
 
   /**
    * Форматирует длительность фильма
    */
-  const formatRuntime = (minutes: number): string => {
+  const formatRuntime = useCallback((minutes: number): string => {
     const hours = Math.floor(minutes / 60)
     const mins = minutes % 60
     if (hours > 0) {
       return `${hours} ч. ${mins} мин.`
     }
     return `${mins} мин.`
+  }, [])
+
+  // Если ID невалиден, показываем ошибку
+  if (!isValidId) {
+    return (
+      <div className={styles.container}>
+        <button onClick={handleBackClick} className={styles.backButton}>
+          ← Назад
+        </button>
+        <p className={styles.error}>
+          Некорректный ID фильма
+        </p>
+      </div>
+    )
   }
 
   if (isLoading) {
@@ -137,7 +155,7 @@ const MovieDetailsPage: FC = () => {
           {/* Жанры */}
           {movie.genres && movie.genres.length > 0 && (
             <div className={styles.genres}>
-              {movie.genres.map((genre: { id: number; name: string }) => (
+              {movie.genres.map((genre) => (
                 <Badge key={genre.id} variant="yellow" className={styles.genreBadge}>
                   {genre.name}
                 </Badge>
@@ -158,7 +176,7 @@ const MovieDetailsPage: FC = () => {
             <div className={styles.infoRow}>
               <h2 className={styles.sectionTitle}>Страны</h2>
               <div className={styles.countries}>
-                {movie.production_countries.map((country: { iso_3166_1: string; name: string }) => (
+                {movie.production_countries.map((country) => (
                   <span key={country.iso_3166_1} className={styles.country}>
                     {country.name}
                   </span>
@@ -172,7 +190,7 @@ const MovieDetailsPage: FC = () => {
             <div className={styles.infoRow}>
               <h2 className={styles.sectionTitle}>Языки</h2>
               <div className={styles.languages}>
-                {movie.spoken_languages.map((lang: { iso_639_1: string; name: string }) => (
+                {movie.spoken_languages.map((lang) => (
                   <span key={lang.iso_639_1} className={styles.language}>
                     {lang.name}
                   </span>
@@ -186,7 +204,7 @@ const MovieDetailsPage: FC = () => {
             <div className={styles.infoRow}>
               <h2 className={styles.sectionTitle}>В главных ролях</h2>
               <div className={styles.cast}>
-                {movie.credits.cast.slice(0, 6).map((actor: { id: number; name: string; character: string; profile_path: string | null }) => (
+                {movie.credits.cast.slice(0, 6).map((actor: CastMember) => (
                   <div key={actor.id} className={styles.actor}>
                     <img
                       src={getProfileUrl(actor.profile_path)}
@@ -209,8 +227,8 @@ const MovieDetailsPage: FC = () => {
               <h2 className={styles.sectionTitle}>Режиссёр</h2>
               <div className={styles.crew}>
                 {movie.credits.crew
-                  .filter((person: { job: string; name: string; profile_path: string | null }) => person.job === 'Director')
-                  .map((director: { id: number; name: string; profile_path: string | null }) => (
+                  .filter((person: CrewMember) => person.job === 'Director')
+                  .map((director: CrewMember) => (
                     <div key={director.id} className={styles.director}>
                       {director.profile_path ? (
                         <img

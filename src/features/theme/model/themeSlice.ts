@@ -1,5 +1,5 @@
 /**
- * Redux слайс для управления темой приложения
+ * Redis слайс для управления темой приложения
  * Содержит логику переключения между темной и светлой темами
  */
 
@@ -11,17 +11,46 @@ import { createSlice } from '@reduxjs/toolkit'
 export type ThemeMode = 'light' | 'dark'
 
 /**
- * Состояние ��емы
+ * Состояние темы
  */
 interface ThemeState {
   mode: ThemeMode
 }
 
 /**
+ * Безопасно получает тему из localStorage
+ * Учитывает SSR и недоступность localStorage в приватных окнах
+ * @returns 'light' | 'dark' или 'dark' по умолчанию
+ */
+const getInitialTheme = (): ThemeMode => {
+  // Проверяем наличие localStorage (важно для SSR/hydration)
+  if (typeof window === 'undefined') {
+    return 'dark'
+  }
+
+  try {
+    const stored = localStorage.getItem('theme')
+    // Валидируем, что это реально 'light' или 'dark'
+    if (stored === 'light' || stored === 'dark') {
+      return stored
+    }
+  } catch (error) {
+    // Игнорируем ошибки доступа к localStorage
+    // Может быть в приватных окнах браузера или при отключённых cookies
+    if (error instanceof Error) {
+      console.error('Ошибка доступа к localStorage при загрузке темы:', error.message)
+    }
+  }
+
+  // Возвращаем дефолт
+  return 'dark'
+}
+
+/**
  * Начальное состояние - используем localStorage или устанавливаем 'dark' по умолчанию
  */
 const initialState: ThemeState = {
-  mode: (localStorage.getItem('theme') as ThemeMode) || 'dark',
+  mode: getInitialTheme(),
 }
 
 /**
@@ -37,7 +66,14 @@ const themeSlice = createSlice({
      */
     toggleTheme: (state) => {
       state.mode = state.mode === 'dark' ? 'light' : 'dark'
-      localStorage.setItem('theme', state.mode)
+      try {
+        localStorage.setItem('theme', state.mode)
+      } catch (error) {
+        // Ошибка сохранения не должна сломать приложение
+        if (error instanceof Error) {
+          console.error('Ошибка сохранения темы в localStorage:', error.message)
+        }
+      }
     },
 
     /**
@@ -47,7 +83,14 @@ const themeSlice = createSlice({
      */
     setTheme: (state, action: { payload: ThemeMode }) => {
       state.mode = action.payload
-      localStorage.setItem('theme', state.mode)
+      try {
+        localStorage.setItem('theme', state.mode)
+      } catch (error) {
+        // Ошибка сохранения не должна сломать приложение
+        if (error instanceof Error) {
+          console.error('Ошибка сохранения темы в localStorage:', error.message)
+        }
+      }
     },
   },
 })
