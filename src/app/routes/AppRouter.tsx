@@ -25,6 +25,7 @@ const AppRouter = () => {
       <Route path={ROUTES.MAIN} element={<MainPage />} />
 
       {/* Страница категорий фильмов */}
+      <Route path={ROUTES.CATEGORY} element={<CategoryPage />} />
       <Route path={`${ROUTES.CATEGORY}/:type`} element={<CategoryPage />} />
 
       {/* Страница фильтрации фильмов */}
@@ -46,4 +47,3 @@ const AppRouter = () => {
 }
 
 export default AppRouter
-
