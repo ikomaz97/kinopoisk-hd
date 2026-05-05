@@ -1,14 +1,14 @@
 /**
  * Карточка фильма
  * Отображает постер, название, рейтинг и кнопку избранного
- * При клике перенаправляет на страницу деталей фильма
+ * При клике на постер перенаправляет на страницу деталей фильма
+ * Сердечко видно при наведении на карточку и добавляет в избранное без перехода
  */
 
 import type { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { getPosterUrl } from '@/shared/lib/image'
 import { FavoriteButton } from '@/features/favorites/ui'
-import { Badge } from '@/shared/ui/Badge'
 import { memo } from 'react'
 import styles from './MovieCard.module.css'
 
@@ -34,42 +34,46 @@ export interface MovieCardProps {
  */
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   // Определение цвета рейтинга
-  const getRatingColor = (rating: number): 'green' | 'yellow' | 'red' => {
-    if (rating >= 8) return 'green'
-    if (rating >= 6) return 'yellow'
-    return 'red'
+  const getRatingColor = (rating: number) => {
+    if (rating >= 8) return '#00c853' // зеленый
+    if (rating >= 6) return '#ffd600' // желтый
+    return '#ff5252' // красный
   }
 
   const ratingColor = getRatingColor(movie.vote_average)
 
   return (
-    <Link to={`/movie/${movie.id}`} className={styles.card}>
-      {/* Постер фильма с заглушкой при отсутствии */}
+    <div className={styles.card}>
+      {/* Контейнер постера с рейтингом и сердечком */}
       <div className={styles.posterContainer}>
-        <img
-          src={getPosterUrl(movie.poster_path)}
-          alt={movie.title}
-          className={styles.poster}
+        <Link to={`/movie/${movie.id}`} className={styles.posterLink}>
+          <img
+            src={getPosterUrl(movie.poster_path)}
+            alt={movie.title}
+            className={styles.poster}
+          />
+        </Link>
+
+        {/* Рейтинг в нижнем правом углу */}
+        <div className={styles.ratingContainer}>
+          <div className={styles.ratingCircle} style={{ backgroundColor: ratingColor }}>
+            {movie.vote_average.toFixed(1)}
+          </div>
+        </div>
+
+        {/* Кнопка избранного в верхнем правом углу (видна при наведении) */}
+        <FavoriteButton
+          movieId={movie.id}
+          title={movie.title}
+          posterPath={movie.poster_path}
+          voteAverage={movie.vote_average}
+          className={styles.favoriteButton}
         />
       </div>
 
-      {/* Название фильма */}
+      {/* Название фильма под карточкой */}
       <h3 className={styles.title}>{movie.title}</h3>
-
-      {/* Рейтинг с цветным индикатором */}
-      <Badge variant={ratingColor} className={styles.ratingBadge}>
-        ⭐ {movie.vote_average.toFixed(1)}
-      </Badge>
-
-      {/* Кнопка добавления в избранное */}
-      <FavoriteButton
-        movieId={movie.id}
-        title={movie.title}
-        posterPath={movie.poster_path}
-        voteAverage={movie.vote_average}
-        className={styles.favoriteButton}
-      />
-    </Link>
+    </div>
   )
 }
 
