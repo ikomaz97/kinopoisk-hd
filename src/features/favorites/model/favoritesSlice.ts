@@ -22,6 +22,8 @@ interface FavoriteMovie {
  */
 interface FavoritesState {
   items: FavoriteMovie[]
+  currentPage: number
+  itemsPerPage: number
   isLoading: boolean
   error: string | null
 }
@@ -31,6 +33,8 @@ interface FavoritesState {
  */
 const initialState: FavoritesState = {
   items: getFavorites(),
+  currentPage: 1,
+  itemsPerPage: 20,
   isLoading: false,
   error: null,
 }
@@ -67,8 +71,15 @@ const favoritesSlice = createSlice({
       state.items = []
       saveFavorites([])
     },
+
+    /**
+     * Установить текущую страницу для пагинации
+     */
+    setCurrentPage: (state, action: PayloadAction<number>) => {
+      state.currentPage = action.payload
+    },
   },
 })
 
-export const { addToFavorites, removeFromFavorites, clearFavorites } = favoritesSlice.actions
+export const { addToFavorites, removeFromFavorites, clearFavorites, setCurrentPage } = favoritesSlice.actions
 export default favoritesSlice.reducer
