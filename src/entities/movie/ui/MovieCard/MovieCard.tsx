@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { getPosterUrl } from '@/shared/lib/image'
 import { FavoriteButton } from '@/features/favorites/ui'
 import { Badge } from '@/shared/ui/Badge'
+import { memo } from 'react'
 import styles from './MovieCard.module.css'
 
 /**
@@ -72,4 +73,4 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   )
 }
 
-export default MovieCard
+export default memo(MovieCard)

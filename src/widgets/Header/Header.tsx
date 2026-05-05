@@ -8,6 +8,7 @@ import type { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/shared/constants/routes'
 import { ThemeToggle } from '@/features/theme/ui'
+import { memo, useCallback } from 'react'
 import styles from './Header.module.css'
 
 /**
@@ -21,9 +22,13 @@ const Header: FC = () => {
    * Обработчик клика по логотипу
    * Навигирует на главную страницу
    */
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     navigate(ROUTES.MAIN)
-  }
+  }, [navigate])
+
+  const handleNavigate = useCallback((path: string) => {
+    navigate(path)
+  }, [navigate])
 
   return (
     <header className={styles.header}>
@@ -46,35 +51,35 @@ const Header: FC = () => {
           <ul className={styles.navList}>
             {/* Main - Главная страница */}
             <li>
-              <button className={styles.navLink} onClick={() => navigate(ROUTES.MAIN)}>
+              <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.MAIN)}>
                 Main
               </button>
             </li>
 
             {/* Category Movies - Категории фильмов */}
             <li>
-              <button className={styles.navLink} onClick={() => navigate(ROUTES.CATEGORY)}>
+              <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.CATEGORY)}>
                 Category Movies
               </button>
             </li>
 
             {/* Filtered Movies - Фильтрация фильмов */}
             <li>
-              <button className={styles.navLink} onClick={() => navigate(ROUTES.FILTERED)}>
+              <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.FILTERED)}>
                 Filtered Movies
               </button>
             </li>
 
             {/* Search - Поиск фильмов */}
             <li>
-              <button className={styles.navLink} onClick={() => navigate(ROUTES.SEARCH)}>
+              <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.SEARCH)}>
                 Search
               </button>
             </li>
 
             {/* Favorites - Избранные фильмы */}
             <li>
-              <button className={styles.navLink} onClick={() => navigate(ROUTES.FAVORITES)}>
+              <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.FAVORITES)}>
                 Favorites
               </button>
             </li>
@@ -88,5 +93,4 @@ const Header: FC = () => {
   )
 }
 
-export default Header
-
+export default memo(Header)
