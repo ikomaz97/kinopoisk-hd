@@ -1,10 +1,11 @@
 /**
  * Страница категорий фильмов
  * Отображает фильмы выбранной категории с возможностью смены категории и пагинации
+ * Поддерживает как классическую пагинацию, так и бесконечный скролл
  */
 
 import type { FC } from 'react'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useMoviesByCategory, type CategoryType } from '@/entities/movie/api'
 import { CategoryTabs } from '@/widgets/CategoryTabs'
@@ -44,6 +45,12 @@ const CategoryPage: FC = () => {
   // Это значительно оптимизирует производительность и снижает нагрузку на API
   const { data, isLoading, error, isFetching } = useMoviesByCategory(category, currentPage)
 
+  // Объединяем фильмы из всех загруженных страниц для бесконечного скролла
+  const allMovies = data?.movies || []
+
+  // Проверяем, есть ли ещё страницы для загрузки
+  const hasMore = data ? currentPage < data.totalPages : false
+
   /**
    * Обработчик смены категории
    * Навигирует на выбранную категорию с параметром page=1
@@ -68,6 +75,39 @@ const CategoryPage: FC = () => {
     [navigate, category]
   )
 
+  /**
+   * Обработчик бесконечного скролла
+   * Загружает следующую страницу фильмов
+   */
+  const handleInfiniteScroll = useCallback(() => {
+    if (data && currentPage < data.totalPages) {
+      const nextPage = currentPage + 1
+      navigate(`/category/${category}?page=${nextPage}`)
+    }
+  }, [data, currentPage, navigate, category])
+
+  // Эффект для бесконечного скролла при достижении низа страницы
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isLoading || !data || currentPage >= data.totalPages) {
+        return
+      }
+
+      const scrollTop = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+
+      // Если прокрутили до низа страницы (осталось менее 200px до конца)
+      if (scrollTop + windowHeight >= documentHeight - 200) {
+        handleInfiniteScroll()
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [isLoading, data, currentPage, handleInfiniteScroll])
 
   return (
     <div className={styles.container}>
@@ -78,7 +118,7 @@ const CategoryPage: FC = () => {
       <h1 className={styles.pageTitle}>{CATEGORY_TITLES[category]}</h1>
 
       {/* Контент страницы */}
-      {isLoading ? (
+      {isLoading && !data ? (
         <>
           <Skeleton variant="text" sx={{ fontSize: '2rem', mb: 2 }} />
           <Skeleton variant="rectangular" width="100%" height={300} />
@@ -87,8 +127,15 @@ const CategoryPage: FC = () => {
         <p className={styles.error}>Ошибка при загрузке фильмов. Попробуйте позже.</p>
       ) : data && data.movies.length > 0 ? (
         <>
-          <MovieList movies={data.movies} />
+          <MovieList movies={allMovies} />
           {isFetching && <LinearProgress />}
+          {/* Индикатор загрузки для бесконечного скролла */}
+          {hasMore && (
+            <div className={styles.loadingMore}>
+              <LinearProgress />
+              <p className={styles.loadingText}>Загрузка фильмов...</p>
+            </div>
+          )}
           {/* Компонент пагинации */}
           {data.totalPages > 1 && (
             <Pagination currentPage={currentPage} totalPages={data.totalPages} onPageChange={handlePageChange} />
