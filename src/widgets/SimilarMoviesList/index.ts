@@ -3,4 +3,3 @@
  */
 
 export { default as SimilarMoviesList } from './SimilarMoviesList'
-
