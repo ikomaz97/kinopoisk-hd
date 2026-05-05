@@ -15,6 +15,7 @@ import { FiltersPanel } from '@/features/filters/ui'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
 import { Loader } from '@/shared/ui/Loader'
+import { LinearProgress } from '@/shared/ui/Loader'
 import styles from './FilteredPage.module.css'
 
 /**
@@ -27,7 +28,7 @@ const FilteredPage: FC = () => {
   const filters = useSelector<RootState, FiltersState>((state) => state.filters)
 
   // Запрашиваем фильмы с параметрами фильтрации
-  const { data, isLoading, error } = useDiscoverMoviesQuery({
+  const { data, isLoading, error, isFetching } = useDiscoverMoviesQuery({
     genreIds: filters.genreIds,
     minRating: filters.minRating,
     sortBy: filters.sortBy,
@@ -74,6 +75,7 @@ const FilteredPage: FC = () => {
           ) : data && data.movies.length > 0 ? (
             <>
               <MovieList movies={data.movies} />
+              {isFetching && <LinearProgress />}
               {data.totalPages > 1 && (
                 <Pagination
                   currentPage={filters.page}

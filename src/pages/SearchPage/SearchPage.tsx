@@ -8,6 +8,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useSearchMoviesQuery } from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
 import { Loader } from '@/shared/ui/Loader'
+import { LinearProgress } from '@/shared/ui/Loader'
 import styles from './SearchPage.module.css'
 
 /**
@@ -35,7 +36,7 @@ const SearchPage: FC = () => {
   }
 
   // Поиск фильмов по запросу
-  const { data: searchResults, isLoading } = useSearchMoviesQuery(
+  const { data: searchResults, isLoading, isFetching } = useSearchMoviesQuery(
     searchQuery.trim() ? { query: searchQuery.trim() } : { query: '' },
     { skip: !searchQuery.trim() }
   )
@@ -57,7 +58,10 @@ const SearchPage: FC = () => {
       {isLoading ? (
         <Loader />
       ) : searchResults && searchResults.results.length > 0 ? (
-        <MovieList movies={searchResults.results} />
+        <>
+          <MovieList movies={searchResults.results} />
+          {isFetching && <LinearProgress />}
+        </>
       ) : searchQuery.trim() ? (
         <p className={styles.comingSoon}>Ничего не найдено</p>
       ) : (

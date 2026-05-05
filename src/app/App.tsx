@@ -7,8 +7,10 @@ import { Header } from '@/widgets/Header'
 import { Footer } from '@/widgets/Footer'
 import AppRouter from '@/app/routes/AppRouter'
 import { useTheme } from '@/features/theme'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useGlobalLoading } from '@/shared/hooks'
+import { LinearProgress } from '@/shared/ui/Loader'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import styles from './App.module.css'
 
 /**
@@ -17,10 +19,12 @@ import styles from './App.module.css'
  */
 function App() {
   const { theme } = useTheme()
+  const isGlobalLoading = useGlobalLoading()
 
   return (
     <div className={`${styles.app} ${theme}-theme`}>
       <Header />
+      {isGlobalLoading && <LinearProgress />}
       <main className={styles.main}>
         <AppRouter />
       </main>

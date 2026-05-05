@@ -12,6 +12,7 @@ import { CategoryTabs } from '@/widgets/CategoryTabs'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
 import { Loader } from '@/shared/ui/Loader'
+import { LinearProgress } from '@/shared/ui/Loader'
 import styles from './CategoryPage.module.css'
 
 /**
@@ -45,10 +46,10 @@ const CategoryPage: FC = () => {
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
 
   // Все хуки вызываются в начале компонента (правило React Hooks)
-  const { data: popularData, isLoading: popularLoading } = useGetPopularMoviesQuery(currentPage)
-  const { data: topRatedData, isLoading: topRatedLoading } = useGetTopRatedMoviesQuery(currentPage)
-  const { data: nowPlayingData, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(currentPage)
-  const { data: upcomingData, isLoading: upcomingLoading } = useGetUpcomingMoviesQuery(currentPage)
+  const { data: popularData, isLoading: popularLoading, isFetching: popularFetching } = useGetPopularMoviesQuery(currentPage)
+  const { data: topRatedData, isLoading: topRatedLoading, isFetching: topRatedFetching } = useGetTopRatedMoviesQuery(currentPage)
+  const { data: nowPlayingData, isLoading: nowPlayingLoading, isFetching: nowPlayingFetching } = useGetNowPlayingMoviesQuery(currentPage)
+  const { data: upcomingData, isLoading: upcomingLoading, isFetching: upcomingFetching } = useGetUpcomingMoviesQuery(currentPage)
 
   /**
    * Обработчик смены категории
@@ -68,7 +69,7 @@ const CategoryPage: FC = () => {
   const handlePageChange = useCallback(
     (page: number) => {
       navigate(`/category/${category}?page=${page}`)
-      // Прокручиваем к нача��у страницы
+      // Прокручиваем к началу страницы
       window.scrollTo(0, 0)
     },
     [navigate, category]
@@ -77,27 +78,32 @@ const CategoryPage: FC = () => {
   // Выбираем данные, загрузку и информацию о пагинации в зависимости от категории
   let movies: Movie[] | undefined
   let isLoading = false
+  let isFetching = false
   let totalPages = 0
 
   switch (category) {
     case 'popular':
       movies = popularData?.movies
       isLoading = popularLoading
+      isFetching = popularFetching
       totalPages = popularData?.totalPages || 0
       break
     case 'top_rated':
       movies = topRatedData?.movies
       isLoading = topRatedLoading
+      isFetching = topRatedFetching
       totalPages = topRatedData?.totalPages || 0
       break
     case 'now_playing':
       movies = nowPlayingData?.movies
       isLoading = nowPlayingLoading
+      isFetching = nowPlayingFetching
       totalPages = nowPlayingData?.totalPages || 0
       break
     case 'upcoming':
       movies = upcomingData?.movies
       isLoading = upcomingLoading
+      isFetching = upcomingFetching
       totalPages = upcomingData?.totalPages || 0
       break
   }
@@ -116,6 +122,7 @@ const CategoryPage: FC = () => {
       ) : movies && movies.length > 0 ? (
         <>
           <MovieList movies={movies} />
+          {isFetching && <LinearProgress />}
           {/* Компонент пагинации */}
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </>
