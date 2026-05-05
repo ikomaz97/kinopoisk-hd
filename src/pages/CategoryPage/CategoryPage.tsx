@@ -11,8 +11,8 @@ import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery, useGetNowPlayingMo
 import { CategoryTabs } from '@/widgets/CategoryTabs'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
-import { Loader } from '@/shared/ui/Loader'
 import { LinearProgress } from '@/shared/ui/Loader'
+import Skeleton from '@mui/material/Skeleton'
 import styles from './CategoryPage.module.css'
 
 /**
@@ -118,7 +118,10 @@ const CategoryPage: FC = () => {
 
       {/* Контент страницы */}
       {isLoading ? (
-        <Loader />
+        <>
+          <Skeleton variant="text" sx={{ fontSize: '2rem', mb: 2 }} />
+          <Skeleton variant="rectangular" width="100%" height={300} />
+        </>
       ) : movies && movies.length > 0 ? (
         <>
           <MovieList movies={movies} />
