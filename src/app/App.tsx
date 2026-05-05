@@ -7,6 +7,8 @@ import { Header } from '@/widgets/Header'
 import { Footer } from '@/widgets/Footer'
 import AppRouter from '@/app/routes/AppRouter'
 import { useTheme } from '@/features/theme'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './App.module.css'
 
 /**
@@ -23,6 +25,7 @@ function App() {
         <AppRouter />
       </main>
       <Footer />
+      <ToastContainer />
     </div>
   )
 }
