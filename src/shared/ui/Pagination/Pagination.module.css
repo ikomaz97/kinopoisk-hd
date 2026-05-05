@@ -7,63 +7,69 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 8px;
   margin-top: 40px;
   padding: 20px 0;
+  flex-wrap: wrap;
 }
 
-/* Кнопка пагинации */
-.button {
-  padding: 10px 20px;
-  border: 2px solid var(--color-accent);
-  background-color: transparent;
-  color: var(--color-accent);
-  font-size: 0.95rem;
+/* Кнопка номера страницы */
+.pageButton {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 16px;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-size: 1rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Кнопка при наведении */
-.button:hover:not(:disabled) {
+.pageButton:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-tertiary);
+  transform: translateY(-2px);
+}
+
+/* Активная страница (синяя) */
+.pageButton.active {
   background-color: var(--color-accent);
+  border-color: var(--color-accent);
   color: #fff;
 }
 
-/* Отключенная кнопка */
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  border-color: var(--color-border);
+/* Многоточие */
+.ellipsis {
   color: var(--color-text-secondary);
-}
-
-/* Информация о странице */
-.pageInfo {
-  color: var(--color-text-primary);
-  font-size: 0.95rem;
-  font-weight: 500;
-  min-width: 160px;
-  text-align: center;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0 8px;
+  user-select: none;
 }
 
 /* Отзывчивый дизайн для мобильных */
 @media (max-width: 768px) {
   .pagination {
-    gap: 12px;
+    gap: 6px;
     margin-top: 30px;
     padding: 15px 0;
   }
 
-  .button {
-    padding: 8px 14px;
-    font-size: 0.85rem;
+  .pageButton {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+    padding: 0 12px;
   }
 
-  .pageInfo {
-    font-size: 0.85rem;
-    min-width: 140px;
+  .ellipsis {
+    font-size: 0.9rem;
   }
 }
-
