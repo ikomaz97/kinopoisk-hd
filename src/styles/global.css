@@ -15,7 +15,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #1a1a1a;
+  background-color: #242162;
   color: #fff;
   padding-top: 4px;
 }
@@ -49,13 +49,13 @@ img {
  */
 :root {
   /* Цветовая палитра */
-  --color-bg-primary: #1a1a1a;
-  --color-bg-secondary: #2a2a2a;
-  --color-bg-tertiary: #3a3a3a;
+  --color-bg-primary: #242162;
+  --color-bg-secondary: #2d2a75;
+  --color-bg-tertiary: #363388;
   --color-text-primary: #ffffff;
   --color-text-secondary: #b3b3b3;
   --color-text-tertiary: #808080;
-  --color-border: #404040;
+  --color-border: #4a458a;
   --color-accent: #6366f1;
   --color-error: #ef4444;
   --color-success: #22c55e;
@@ -65,8 +65,8 @@ img {
   --color-secondary: #6b7280; /* серый как fallback */
 
   /* Цвета для Header */
-  --color-header: #1a1a1a;
-  --color-hover: #2a2a2a;
+  --color-header: #242162;
+  --color-hover: #2d2a75;
 }
 
 /* Светлая тема */
@@ -84,13 +84,13 @@ img {
 
 /* Темная тема (по умолчанию) */
 .dark-theme {
-  --color-bg-primary: #1a1a1a;
-  --color-bg-secondary: #2a2a2a;
-  --color-bg-tertiary: #3a3a3a;
+  --color-bg-primary: #242162;
+  --color-bg-secondary: #2d2a75;
+  --color-bg-tertiary: #363388;
   --color-text-primary: #ffffff;
   --color-text-secondary: #b3b3b3;
   --color-text-tertiary: #808080;
-  --color-border: #404040;
-  --color-header: #1a1a1a;
-  --color-hover: #2a2a2a;
+  --color-border: #4a458a;
+  --color-header: #242162;
+  --color-hover: #2d2a75;
 }
