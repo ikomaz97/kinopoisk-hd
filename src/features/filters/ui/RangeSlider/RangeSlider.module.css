@@ -1,0 +1,149 @@
+/**
+ * Стили для двухползункового слайдера диапазона
+ */
+
+/* Контейнер слайдера */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Заголовок с лейблом и диапазоном */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Лейбл */
+.label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+/* Текст диапазона */
+.rangeText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Контейнер трека */
+.trackContainer {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Трек слайдера */
+.track {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* Заполненная область между ползунками */
+.fill {
+  position: absolute;
+  height: 6px;
+  background: var(--color-accent);
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Минимальный ползунок */
+.sliderMin {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-bg-tertiary);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.sliderMin::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s;
+  pointer-events: auto;
+}
+
+.sliderMin::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.sliderMin::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  transition: transform 0.1s;
+  pointer-events: auto;
+}
+
+.sliderMin::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Максимальный ползунок */
+.sliderMax {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-bg-tertiary);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+
+.sliderMax::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s;
+  pointer-events: auto;
+}
+
+.sliderMax::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.sliderMax::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  transition: transform 0.1s;
+  pointer-events: auto;
+}
+
+.sliderMax::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
