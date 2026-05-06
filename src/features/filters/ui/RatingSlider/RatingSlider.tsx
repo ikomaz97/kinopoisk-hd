@@ -4,7 +4,7 @@
  */
 
 import type { FC } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './RatingSlider.module.css'
 
 /**
@@ -31,12 +31,18 @@ export interface RatingSliderProps {
 export const RatingSlider: FC<RatingSliderProps> = ({ value, onChange }) => {
   const [localValue, setLocalValue] = useState(value)
   const [isDragging, setIsDragging] = useState(false)
+  const prevValueRef = useRef(value)
+  const debounceTimerRef = useRef<number | null>(null)
 
   /**
-   * Синхронизация localValue с внешним value
+   * Синхронизация localValue с внешним value через useEffect
+   * Используем prevValueRef для проверки изменения значения
    */
   useEffect(() => {
-    setLocalValue(value)
+    if (prevValueRef.current !== value) {
+      setLocalValue(value)
+      prevValueRef.current = value
+    }
   }, [value])
 
   /**
@@ -48,13 +54,17 @@ export const RatingSlider: FC<RatingSliderProps> = ({ value, onChange }) => {
       setLocalValue(newValue)
       setIsDragging(true)
 
+      // Очистка предыдущего таймера, если он существует
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current)
+      }
+
       // Debounce: отправляем значение только через 200мс после остановки
-      const timer = setTimeout(() => {
+      debounceTimerRef.current = setTimeout(() => {
         onChange(newValue)
         setIsDragging(false)
+        debounceTimerRef.current = null
       }, 200)
-
-      return () => clearTimeout(timer)
     },
     [onChange]
   )
@@ -85,7 +95,6 @@ export const RatingSlider: FC<RatingSliderProps> = ({ value, onChange }) => {
       {isDragging && (
         <div className={styles.debounceIndicator}>
           <span className={styles.loadingDot}></span>
-          <span>Фильтрация...</span>
         </div>
       )}
     </div>
