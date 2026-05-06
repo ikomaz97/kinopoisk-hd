@@ -72,39 +72,6 @@
   pointer-events: none;
 }
 
-.sliderMin::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.1s;
-  pointer-events: auto;
-}
-
-.sliderMin::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-}
-
-.sliderMin::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: none;
-  transition: transform 0.1s;
-  pointer-events: auto;
-}
-
-.sliderMin::-moz-range-thumb:hover {
-  transform: scale(1.1);
-}
-
 /* Максимальный ползунок */
 .sliderMax {
   position: absolute;
@@ -118,6 +85,8 @@
   pointer-events: none;
 }
 
+/* Общий стиль для ползунков */
+.sliderMin::-webkit-slider-thumb,
 .sliderMax::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -131,10 +100,12 @@
   pointer-events: auto;
 }
 
+.sliderMin::-webkit-slider-thumb:hover,
 .sliderMax::-webkit-slider-thumb:hover {
   transform: scale(1.1);
 }
 
+.sliderMin::-moz-range-thumb,
 .sliderMax::-moz-range-thumb {
   width: 18px;
   height: 18px;
@@ -147,6 +118,7 @@
   pointer-events: auto;
 }
 
+.sliderMin::-moz-range-thumb:hover,
 .sliderMax::-moz-range-thumb:hover {
   transform: scale(1.1);
 }
