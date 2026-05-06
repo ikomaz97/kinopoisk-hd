@@ -35,14 +35,18 @@
   position: relative;
   width: 100%;
   cursor: pointer;
+  overflow: hidden;
 }
 
 /* Трек слайдера */
 .track {
   position: relative;
+  width: calc(100% - 18px);
   height: 40px;
   display: flex;
   align-items: center;
+  margin: 0 9px;
+  overflow: hidden;
 }
 
 /* Заполненная область между ползунками */
@@ -146,4 +150,3 @@
 .sliderMax::-moz-range-thumb:hover {
   transform: scale(1.1);
 }
-

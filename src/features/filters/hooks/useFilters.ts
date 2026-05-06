@@ -5,7 +5,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { FiltersState } from '@/features/filters'
-import { toggleGenre, setMinRating, setSortBy, setPage } from '@/features/filters'
+import { toggleGenre, setMinRating, setSortBy, setPage, setMaxRating } from '@/features/filters'
 import type { SortByValue } from '@/shared/constants/genres'
 import type { RootState } from '@/app'
 import { getFromStorage, setToStorage } from '@/shared/lib/storage'
@@ -30,6 +30,10 @@ export const useFilters = () => {
       if (savedFilters.minRating !== undefined) {
         dispatch(setMinRating(savedFilters.minRating))
       }
+      if (savedFilters.maxRating !== undefined) {
+        // Добавляем восстановление maxRating
+        dispatch(setMaxRating(savedFilters.maxRating))
+      }
       if (savedFilters.sortBy) {
         dispatch(setSortBy(savedFilters.sortBy as SortByValue))
       }
@@ -42,10 +46,11 @@ export const useFilters = () => {
     const filtersToSave: Omit<FiltersState, 'page'> = {
       genreIds: filters.genreIds,
       minRating: filters.minRating,
+      maxRating: filters.maxRating,
       sortBy: filters.sortBy,
     }
     setToStorage('filters', filtersToSave)
-  }, [filters.genreIds, filters.minRating, filters.sortBy])
+  }, [filters.genreIds, filters.minRating, filters.maxRating, filters.sortBy])
 
   return {
     filters,
