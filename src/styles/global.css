@@ -56,6 +56,10 @@ img {
   /* Основные цвета кнопок */
   --color-primary: var(--color-accent);
   --color-secondary: #6b7280; /* серый как fallback */
+
+  /* Цвета для Header */
+  --color-header: #1a1a1a;
+  --color-hover: #2a2a2a;
 }
 
 /* Светлая тема */
@@ -69,6 +73,10 @@ img {
   --color-accent: #6366f1;
   --color-error: #ef4444;
   --color-success: #22c55e;
+
+  /* Цвета для Header */
+  --color-header: #ffffff;
+  --color-hover: #f5f5f5;
 }
 
 /* Темная тема (по умолчанию) */
@@ -82,4 +90,8 @@ img {
   --color-accent: #6366f1;
   --color-error: #ef4444;
   --color-success: #22c55e;
+
+  /* Цвета для Header */
+  --color-header: #1a1a1a;
+  --color-hover: #2a2a2a;
 }
