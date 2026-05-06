@@ -9,17 +9,19 @@
   padding: 20px;
 }
 
-/* Заголовок страницы */
-.pageTitle {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: var(--color-text-primary);
-}
-
-/* Контент страницы */
+/* Контент страницы - фильтры и фильмы в один ряд */
 .content {
   display: flex;
   gap: 30px;
+}
+
+/* Обертка для фильтров со sticky-позиционированием */
+.filtersWrapper {
+  flex: 0 0 300px;
+  position: sticky;
+  top: 80px;
+  height: fit-content;
+  margin: 0;
 }
 
 /* Основная область контента */

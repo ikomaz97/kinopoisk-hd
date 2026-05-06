@@ -60,11 +60,11 @@ const FilteredPage: FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>Фильтрация фильмов</h1>
-
       <div className={styles.content}>
-        {/* Левая колонка: панель фильтров */}
-        <FiltersPanel onReset={handleResetFilters} />
+        {/* Левая колонка: панель фильтров со sticky-позиционированием */}
+        <div className={styles.filtersWrapper}>
+          <FiltersPanel onReset={handleResetFilters} />
+        </div>
 
         {/* Правая колонка: список фильмов */}
         <main className={styles.main}>

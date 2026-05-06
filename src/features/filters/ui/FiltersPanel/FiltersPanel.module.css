@@ -4,13 +4,11 @@
 
 /* Контейнер панели фильтров */
 .filtersPanel {
-  width: 280px;
+  width: 100%;
   padding: 20px;
   background-color: var(--color-bg-secondary);
   border-radius: 12px;
   height: fit-content;
-  position: sticky;
-  top: 20px;
 }
 
 /* Заголовок панели */
