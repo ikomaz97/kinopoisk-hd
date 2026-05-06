@@ -13,6 +13,7 @@
 .content {
   display: flex;
   gap: 30px;
+  align-items: flex-start;
 }
 
 /* Обертка для фильтров со sticky-позиционированием */
@@ -28,6 +29,7 @@
 .main {
   flex: 1;
   min-width: 0;
+  padding-top: 0;
 }
 
 /* Сообщение об ошибке */
