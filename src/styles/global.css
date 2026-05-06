@@ -17,6 +17,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #1a1a1a;
   color: #fff;
+  padding-top: 4px;
+}
+
+/* Отступ для body при загрузке, чтобы контент не перекрывался фиксированной полосой */
+body.loading {
+  padding-top: 4px;
 }
 
 #root {
