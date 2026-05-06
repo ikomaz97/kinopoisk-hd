@@ -65,15 +65,19 @@ export const RangeSlider: FC<RangeSliderProps> = ({
      * Синхронизация локальных значений с внешними
      */
     useEffect(() => {
+        // Валидация minValue: не меньше min и не больше maxValue
         if (minValue !== latestMinRef.current) {
-            setLocalMin(minValue)
-            latestMinRef.current = minValue
+            const clampedMin = Math.max(min, Math.min(minValue, maxValue - step))
+            setLocalMin(clampedMin)
+            latestMinRef.current = clampedMin
         }
+        // Валидация maxValue: не меньше minValue и не больше max
         if (maxValue !== latestMaxRef.current) {
-            setLocalMax(maxValue)
-            latestMaxRef.current = maxValue
+            const clampedMax = Math.max(minValue + step, Math.min(maxValue, max))
+            setLocalMax(clampedMax)
+            latestMaxRef.current = clampedMax
         }
-    }, [minValue, maxValue])
+    }, [minValue, maxValue, min, max, step])
 
     /**
      * Очистка таймера при размонтировании
@@ -111,25 +115,28 @@ export const RangeSlider: FC<RangeSliderProps> = ({
             const percent = (clickPosition / trackWidth) * 100
             const value = getValueFromPercent(percent)
 
+            // Валидация: значение не должно выходить за пределы min и max
+            const clampedValue = Math.max(min, Math.min(value, max))
+
             // Определяем, к какому ползунку ближе клик
             const minPercent = getPercent(localMin)
             const maxPercent = getPercent(localMax)
 
             if (Math.abs(percent - minPercent) < Math.abs(percent - maxPercent)) {
                 // Клик ближе к левому ползунку
-                if (value < localMax - step) {
-                    setLocalMin(value)
-                    latestMinRef.current = value
+                if (clampedValue < localMax - step) {
+                    setLocalMin(clampedValue)
+                    latestMinRef.current = clampedValue
                 }
             } else {
                 // Клик ближе к правому ползунку
-                if (value > localMin + step) {
-                    setLocalMax(value)
-                    latestMaxRef.current = value
+                if (clampedValue > localMin + step) {
+                    setLocalMax(clampedValue)
+                    latestMaxRef.current = clampedValue
                 }
             }
         },
-        [getPercent, getValueFromPercent, localMin, localMax, step]
+        [getPercent, getValueFromPercent, localMin, localMax, min, max, step]
     )
 
     /**

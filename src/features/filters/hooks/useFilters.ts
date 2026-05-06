@@ -27,12 +27,15 @@ export const useFilters = () => {
       if (savedFilters.genreIds) {
         savedFilters.genreIds.forEach((genreId: number) => dispatch(toggleGenre(genreId)))
       }
+      // Валидация minRating: не меньше 0
       if (savedFilters.minRating !== undefined) {
-        dispatch(setMinRating(savedFilters.minRating))
+        const validMinRating = Math.max(0, savedFilters.minRating)
+        dispatch(setMinRating(validMinRating))
       }
+      // Валидация maxRating: не больше 10
       if (savedFilters.maxRating !== undefined) {
-        // Добавляем восстановление maxRating
-        dispatch(setMaxRating(savedFilters.maxRating))
+        const validMaxRating = Math.min(10, savedFilters.maxRating)
+        dispatch(setMaxRating(validMaxRating))
       }
       if (savedFilters.sortBy) {
         dispatch(setSortBy(savedFilters.sortBy as SortByValue))

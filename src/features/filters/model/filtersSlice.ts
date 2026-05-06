@@ -34,7 +34,8 @@ export const filtersSlice = createSlice({
      * Установить минимальный рейтинг
      */
     setMinRating: (state, action: PayloadAction<number>) => {
-      state.minRating = action.payload
+      // Валидация: рейтинг не может быть меньше 0
+      state.minRating = Math.max(0, action.payload)
       // Вернуться на первую страницу при изменении фильтра
       state.page = 1
     },
@@ -43,7 +44,8 @@ export const filtersSlice = createSlice({
      * Установить максимальный рейтинг
      */
     setMaxRating: (state, action: PayloadAction<number>) => {
-      state.maxRating = action.payload
+      // Валидация: рейтинг не может быть больше 10
+      state.maxRating = Math.min(10, action.payload)
       // Вернуться на первую страницу при изменении фильтра
       state.page = 1
     },
@@ -52,8 +54,9 @@ export const filtersSlice = createSlice({
      * Установить диапазон рейтинга
      */
     setRatingRange: (state, action: PayloadAction<{ min: number; max: number }>) => {
-      state.minRating = action.payload.min
-      state.maxRating = action.payload.max
+      // Валидация: min не меньше 0, max не больше 10
+      state.minRating = Math.max(0, action.payload.min)
+      state.maxRating = Math.min(10, action.payload.max)
       // Вернуться на первую страницу при изменении фильтра
       state.page = 1
     },
