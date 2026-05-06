@@ -157,11 +157,11 @@ export const RatingSlider: FC<RatingSliderProps> = ({
                 <span>10</span>
             </div>
 
-            {isDragging && (
-                <div className={styles.debounceIndicator}>
-                    <span className={styles.loadingDot}></span>
-                </div>
-            )}
+            {/*{isDragging && (*/}
+            {/*    <div className={styles.debounceIndicator}>*/}
+            {/*        <span className={styles.loadingDot}></span>*/}
+            {/*    </div>*/}
+            {/*)}*/}
         </div>
     )
 }
