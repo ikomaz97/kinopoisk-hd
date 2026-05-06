@@ -40,6 +40,25 @@ export const filtersSlice = createSlice({
     },
 
     /**
+     * Установить максимальный рейтинг
+     */
+    setMaxRating: (state, action: PayloadAction<number>) => {
+      state.maxRating = action.payload
+      // Вернуться на первую страницу при изменении фильтра
+      state.page = 1
+    },
+
+    /**
+     * Установить диапазон рейтинга
+     */
+    setRatingRange: (state, action: PayloadAction<{ min: number; max: number }>) => {
+      state.minRating = action.payload.min
+      state.maxRating = action.payload.max
+      // Вернуться на первую страницу при изменении фильтра
+      state.page = 1
+    },
+
+    /**
      * Установить параметр сортировки
      */
     setSortBy: (state, action: PayloadAction<SortByValue>) => {
@@ -61,11 +80,13 @@ export const filtersSlice = createSlice({
     resetFilters: (state) => {
       state.genreIds = INITIAL_FILTERS_STATE.genreIds
       state.minRating = INITIAL_FILTERS_STATE.minRating
+      state.maxRating = INITIAL_FILTERS_STATE.maxRating
       state.sortBy = INITIAL_FILTERS_STATE.sortBy
       state.page = INITIAL_FILTERS_STATE.page
     },
   },
 })
 
-export const { toggleGenre, setMinRating, setSortBy, setPage, resetFilters } = filtersSlice.actions
+export const { toggleGenre, setMinRating, setMaxRating, setRatingRange, setSortBy, setPage, resetFilters } =
+  filtersSlice.actions
 export default filtersSlice.reducer

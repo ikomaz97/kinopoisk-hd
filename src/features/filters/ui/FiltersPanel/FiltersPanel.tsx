@@ -8,11 +8,11 @@ import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app'
 import type { FiltersState } from '@/features/filters'
-import { toggleGenre, setMinRating, setSortBy } from '@/features/filters'
+import { toggleGenre, setRatingRange, setSortBy } from '@/features/filters'
 import type { Genre, GenreListResponse } from '@/entities/movie'
 import { useGetGenresQuery } from '@/entities/movie/api'
 import type { SortByValue } from '@/shared/constants/genres'
-import { RatingSlider } from '@/features/filters/ui/RatingSlider'
+import { RangeSlider } from '@/features/filters/ui/RangeSlider/index'
 import { GenreButton } from '@/features/filters/ui/GenreButton'
 import styles from './FiltersPanel.module.css'
 
@@ -52,8 +52,8 @@ export const FiltersPanel: FC<FiltersPanelProps> = ({ onReset }) => {
    * Обработчик изменения рейтинга
    */
   const handleRatingChange = useCallback(
-    (value: number) => {
-      dispatch(setMinRating(value))
+    (minValue: number, maxValue: number) => {
+      dispatch(setRatingRange({ min: minValue, max: maxValue }))
     },
     [dispatch]
   )
@@ -104,7 +104,13 @@ export const FiltersPanel: FC<FiltersPanelProps> = ({ onReset }) => {
 
       {/* Рейтинг */}
       <div className={styles.filterSection}>
-        <RatingSlider value={filters.minRating} onChange={handleRatingChange} />
+        <RangeSlider
+          min={0}
+          max={10}
+          minValue={filters.minRating}
+          maxValue={filters.maxRating}
+          onChange={handleRatingChange}
+        />
       </div>
 
       {/* Жанры */}

@@ -31,6 +31,7 @@ const FilteredPage: FC = () => {
   const { data, isLoading, error, isFetching } = useDiscoverMoviesQuery({
     genreIds: filters.genreIds,
     minRating: filters.minRating,
+    maxRating: filters.maxRating,
     sortBy: filters.sortBy,
     page: filters.page,
   })

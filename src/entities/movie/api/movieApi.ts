@@ -183,10 +183,11 @@ export const movieApi = baseApi.injectEndpoints({
     discoverMovies: builder.query<MoviesWithPagination, {
       genreIds: number[]
       minRating: number
+      maxRating: number
       sortBy: string
       page: number
     }>({
-      query: ({ genreIds, minRating, sortBy, page = 1 }) => ({
+      query: ({ genreIds, minRating, maxRating, sortBy, page = 1 }) => ({
         url: '/discover/movie',
         params: {
           page,
@@ -196,6 +197,7 @@ export const movieApi = baseApi.injectEndpoints({
           include_video: false,
           'with_genres': genreIds.length > 0 ? genreIds.join('|') : undefined,
           'vote_average.gte': minRating > 0 ? minRating : undefined,
+          'vote_average.lte': maxRating < 10 ? maxRating : undefined,
           sort_by: sortBy,
         },
         headers: {

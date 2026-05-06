@@ -19,6 +19,11 @@ export type FiltersState = {
   minRating: number
 
   /**
+   * Максимальный рейтинг (0-10)
+   */
+  maxRating: number
+
+  /**
    * Параметр сортировки
    */
   sortBy: SortByValueFromGenres
@@ -35,6 +40,7 @@ export type FiltersState = {
 export const INITIAL_FILTERS_STATE: FiltersState = {
   genreIds: [],
   minRating: 0,
+  maxRating: 10,
   sortBy: 'popularity.desc',
   page: 1,
 }
