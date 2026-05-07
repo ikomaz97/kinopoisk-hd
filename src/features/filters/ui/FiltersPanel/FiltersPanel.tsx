@@ -7,12 +7,12 @@ import type { FC } from 'react'
 import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import type { AppDispatch, RootState } from '@/app'
-import type { FiltersState } from '@/features/filters'
+import {type FiltersState, RangeSlider} from '@/features/filters'
 import { toggleGenre, setRatingRange, setSortBy } from '@/features/filters'
 import type { Genre, GenreListResponse } from '@/entities/movie'
 import { useGetGenresQuery } from '@/entities/movie/api'
 import type { SortByValue } from '@/shared/constants/genres'
-import { RangeSlider } from '@/features/filters/ui/RangeSlider/index'
+
 import { GenreButton } from '@/features/filters/ui/GenreButton'
 import styles from './FiltersPanel.module.css'
 
@@ -78,7 +78,7 @@ export const FiltersPanel: FC<FiltersPanelProps> = ({ onReset }) => {
 
   return (
     <aside className={styles.filtersPanel}>
-      <h2 className={styles.panelTitle}>Фильтры и сортировка</h2>
+      {/*<h2 className={styles.panelTitle}>Фильтры и сортировка</h2>*/}
 
       {/* Сортировка */}
       <div className={styles.filterSection}>
