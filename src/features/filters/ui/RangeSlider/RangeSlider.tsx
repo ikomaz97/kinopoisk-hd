@@ -124,19 +124,23 @@ export const RangeSlider: FC<RangeSliderProps> = ({
 
             if (Math.abs(percent - minPercent) < Math.abs(percent - maxPercent)) {
                 // Клик ближе к левому ползунку
-                if (clampedValue <= localMax) {
-                    setLocalMin(clampedValue)
-                    latestMinRef.current = clampedValue
+                // Ограничить: не больше localMax и не больше maxValue
+                const clampedValueForMin = Math.min(clampedValue, localMax, maxValue)
+                if (clampedValueForMin <= localMax) {
+                    setLocalMin(clampedValueForMin)
+                    latestMinRef.current = clampedValueForMin
                 }
             } else {
                 // Клик ближе к правому ползунку
-                if (clampedValue >= localMin) {
-                    setLocalMax(clampedValue)
-                    latestMaxRef.current = clampedValue
+                // Ограничить: не меньше localMin и не меньше minValue
+                const clampedValueForMax = Math.max(clampedValue, localMin, minValue)
+                if (clampedValueForMax >= localMin) {
+                    setLocalMax(clampedValueForMax)
+                    latestMaxRef.current = clampedValueForMax
                 }
             }
         },
-        [getPercent, getValueFromPercent, localMin, localMax, min, max]
+        [getPercent, getValueFromPercent, localMin, localMax, minValue, maxValue, min, max]
     )
 
     /**
@@ -171,15 +175,15 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     const handleMinChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const newValue = parseFloat(e.target.value)
-            // Ограничить значение: не меньше min и не больше localMax (но может быть равно)
-            const clampedValue = Math.max(min, Math.min(newValue, localMax))
+            // Ограничить значение: не меньше min, не больше localMax и не больше maxValue
+            const clampedValue = Math.max(min, Math.min(newValue, localMax, maxValue))
 
             setLocalMin(clampedValue)
             latestMinRef.current = clampedValue
 
             runDebounce()
         },
-        [min, localMax, runDebounce]
+        [min, localMax, maxValue, runDebounce]
     )
 
     /**
@@ -188,15 +192,15 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     const handleMaxChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const newValue = parseFloat(e.target.value)
-            // Ограничить значение: не меньше localMin (но может быть равно) и не больше max
-            const clampedValue = Math.max(localMin, Math.min(newValue, max))
+            // Ограничить значение: не меньше localMin, не больше max и не меньше minValue
+            const clampedValue = Math.max(localMin, minValue, Math.min(newValue, max))
 
             setLocalMax(clampedValue)
             latestMaxRef.current = clampedValue
 
             runDebounce()
         },
-        [localMin, max, runDebounce]
+        [localMin, minValue, max, runDebounce]
     )
 
     return (
