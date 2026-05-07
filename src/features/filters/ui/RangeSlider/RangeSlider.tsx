@@ -67,17 +67,17 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     useEffect(() => {
         // Валидация minValue: не меньше min и не больше maxValue
         if (minValue !== latestMinRef.current) {
-            const clampedMin = Math.max(min, Math.min(minValue, maxValue - step))
+            const clampedMin = Math.max(min, Math.min(minValue, maxValue))
             setLocalMin(clampedMin)
             latestMinRef.current = clampedMin
         }
         // Валидация maxValue: не меньше minValue и не больше max
         if (maxValue !== latestMaxRef.current) {
-            const clampedMax = Math.max(minValue + step, Math.min(maxValue, max))
+            const clampedMax = Math.max(minValue, Math.min(maxValue, max))
             setLocalMax(clampedMax)
             latestMaxRef.current = clampedMax
         }
-    }, [minValue, maxValue, min, max, step])
+    }, [minValue, maxValue, min, max])
 
     /**
      * Очистка таймера при размонтировании
@@ -124,19 +124,19 @@ export const RangeSlider: FC<RangeSliderProps> = ({
 
             if (Math.abs(percent - minPercent) < Math.abs(percent - maxPercent)) {
                 // Клик ближе к левому ползунку
-                if (clampedValue < localMax - step) {
+                if (clampedValue <= localMax) {
                     setLocalMin(clampedValue)
                     latestMinRef.current = clampedValue
                 }
             } else {
                 // Клик ближе к правому ползунку
-                if (clampedValue > localMin + step) {
+                if (clampedValue >= localMin) {
                     setLocalMax(clampedValue)
                     latestMaxRef.current = clampedValue
                 }
             }
         },
-        [getPercent, getValueFromPercent, localMin, localMax, min, max, step]
+        [getPercent, getValueFromPercent, localMin, localMax, min, max]
     )
 
     /**
@@ -148,8 +148,13 @@ export const RangeSlider: FC<RangeSliderProps> = ({
         }
 
         timerRef.current = setTimeout(() => {
-            const latestMin = latestMinRef.current
-            const latestMax = latestMaxRef.current
+            let latestMin = latestMinRef.current
+            let latestMax = latestMaxRef.current
+
+            // Если ползунки пересеклись, переупорядочить их
+            if (latestMin > latestMax) {
+                ;[latestMin, latestMax] = [latestMax, latestMin]
+            }
 
             // Защита от лишних вызовов
             if (latestMin !== minValue || latestMax !== maxValue) {
@@ -166,14 +171,15 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     const handleMinChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const newValue = parseFloat(e.target.value)
-            const clampedValue = Math.max(min, Math.min(newValue, localMax - step))
+            // Ограничить значение: не меньше min и не больше localMax (но может быть равно)
+            const clampedValue = Math.max(min, Math.min(newValue, localMax))
 
             setLocalMin(clampedValue)
             latestMinRef.current = clampedValue
 
             runDebounce()
         },
-        [min, localMax, step, runDebounce]
+        [min, localMax, runDebounce]
     )
 
     /**
@@ -182,14 +188,15 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     const handleMaxChange = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
             const newValue = parseFloat(e.target.value)
-            const clampedValue = Math.max(minValue + step, Math.min(newValue, max))
+            // Ограничить значение: не меньше localMin (но может быть равно) и не больше max
+            const clampedValue = Math.max(localMin, Math.min(newValue, max))
 
             setLocalMax(clampedValue)
             latestMaxRef.current = clampedValue
 
             runDebounce()
         },
-        [minValue, step, max, runDebounce]
+        [localMin, max, runDebounce]
     )
 
     return (
