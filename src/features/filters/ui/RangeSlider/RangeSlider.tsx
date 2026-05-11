@@ -7,11 +7,66 @@
  * - Защита от пересечения ползунков
  * - Корректная работа при быстром drag
  * - Без утечек (cleanup таймера)
+ * - Миграция на MUI Slider с сохранением дизайна
  */
 
-import type { FC, ChangeEvent, MouseEvent } from 'react'
+import type { FC } from 'react'
 import { useEffect, useRef, useState, useCallback } from 'react'
+import Slider from '@mui/material/Slider'
+import { styled } from '@mui/material/styles'
 import styles from './RangeSlider.module.css'
+
+// Кастомный стиль для MUI Slider, чтобы соответствовал дизайну
+const CustomSlider = styled(Slider)({
+    color: 'var(--color-accent)',
+    height: 6,
+    padding: '17px 0', // Увеличиваем зону клика по вертикали
+    '& .MuiSlider-track': {
+        border: 'none',
+        borderRadius: 3,
+        height: 6,
+    },
+    '& .MuiSlider-rail': {
+        background: 'var(--color-bg-tertiary)',
+        borderRadius: 3,
+        opacity: 1,
+        height: 6,
+    },
+    '& .MuiSlider-thumb': {
+        width: 18,
+        height: 18,
+        background: 'var(--color-accent)',
+        border: '2px solid var(--color-bg-primary, #fff)', // Обводка ползунка
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+        // Центрируем thumb относительно трека
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        marginTop: 0,
+        // Убираем стандартный псевдоэлемент MUI
+        '&::before': {
+            display: 'none',
+        },
+        // Стили для hover состояния
+        '&:hover': {
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)',
+            transform: 'translate(-50%, -50%) scale(1.1)',
+        },
+        // Стили для активного состояния (drag)
+        '&.Mui-active': {
+            transform: 'translate(-50%, -50%) scale(1.2)',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
+        },
+        // Стили для focus visible
+        '&.Mui-focusVisible': {
+            outline: '2px solid var(--color-accent)',
+            outlineOffset: 2,
+            transform: 'translate(-50%, -50%) scale(1.1)',
+        },
+    },
+    '& .MuiSlider-valueLabel': {
+        display: 'none', // Полностью скрываем value label
+    },
+})
 
 /**
  * Пропсы компонента RangeSlider
@@ -23,7 +78,7 @@ export interface RangeSliderProps {
     /** Максимальное значение диапазона */
     max: number
 
-    /** Текущее минимальное значение */
+    /** Текущее минимальное значение (оставляем для обратной совместимости) */
     minValue: number
 
     /** Текущее максимальное значение */
@@ -37,170 +92,101 @@ export interface RangeSliderProps {
 
     /** Шаг изменения значения, по умолчанию 0.1 */
     step?: number
+
+    /** Минимальное расстояние между ползунками, по умолчанию 0 (без ограничения) */
+    minDistance?: number
 }
 
 /**
- * Двухползунковый слайдер диапазона
+ * Двухползунковый слайдер диапазона на базе MUI Slider
  */
 export const RangeSlider: FC<RangeSliderProps> = ({
-    min,
-    max,
-    minValue,
-    maxValue,
-    onChange,
-    debounceMs = 200,
-    step = 0.1,
-}) => {
-    const [localMin, setLocalMin] = useState(minValue)
-    const [localMax, setLocalMax] = useState(maxValue)
+                                                      min,
+                                                      max,
+                                                      minValue,
+                                                      maxValue,
+                                                      onChange,
+                                                      debounceMs = 200,
+                                                      step = 0.1,
+                                                      minDistance = 0, // по умолчанию без ограничения
+                                                  }) => {
+    // Внутренний стейт в формате [min, max] для MUI
+    const [value, setValue] = useState<[number, number]>([minValue, maxValue])
 
-    // Храним последние значения для debounce
-    const latestMinRef = useRef(minValue)
-    const latestMaxRef = useRef(maxValue)
-
-    // Таймер debounce
+    // Refs для debounce и последних значений
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const latestValueRef = useRef<[number, number]>([minValue, maxValue])
 
-    /**
-     * Синхронизация локальных значений с внешними
-     */
+    // Синхронизация с внешними пропсами
     useEffect(() => {
-        // Валидация minValue: не меньше min и не больше maxValue
-        if (minValue !== latestMinRef.current) {
-            const clampedMin = Math.max(min, Math.min(minValue, maxValue))
-            setLocalMin(clampedMin)
-            latestMinRef.current = clampedMin
-        }
-        // Валидация maxValue: не меньше minValue и не больше max
-        if (maxValue !== latestMaxRef.current) {
-            const clampedMax = Math.max(minValue, Math.min(maxValue, max))
-            setLocalMax(clampedMax)
-            latestMaxRef.current = clampedMax
+        const clampedMin = Math.max(min, Math.min(minValue, maxValue))
+        const clampedMax = Math.max(minValue, Math.min(maxValue, max))
+
+        if (clampedMin !== latestValueRef.current[0] || clampedMax !== latestValueRef.current[1]) {
+            setValue([clampedMin, clampedMax])
+            latestValueRef.current = [clampedMin, clampedMax]
         }
     }, [minValue, maxValue, min, max])
 
-    /**
-     * Очистка таймера при размонтировании
-     */
+    // Cleanup таймера
     useEffect(() => {
         return () => {
-            if (timerRef.current) {
-                clearTimeout(timerRef.current)
-            }
+            if (timerRef.current) clearTimeout(timerRef.current)
         }
     }, [])
 
-    /**
-     * Расчет позиции ползунка в процентах
-     */
-    const getPercent = useCallback((value: number) => {
-        return ((value - min) / (max - min)) * 100
-    }, [min, max])
+    // Debounce-логика (переиспользуем оригинальную)
+    const runDebounce = useCallback(
+        (_newMin: number, _newMax: number) => {
+            if (timerRef.current) clearTimeout(timerRef.current)
 
-    /**
-     * Расчет значения из позиции в процентах
-     */
-    const getValueFromPercent = useCallback((percent: number) => {
-        return min + (percent / 100) * (max - min)
-    }, [min, max])
+            timerRef.current = setTimeout(() => {
+                let [latestMin, latestMax] = latestValueRef.current
 
-    /**
-     * Обработчик клика по треку
-     */
-    const handleTrackClick = useCallback(
-        (e: MouseEvent<HTMLDivElement>) => {
-            const rect = e.currentTarget.getBoundingClientRect()
-            const clickPosition = e.clientX - rect.left
-            const trackWidth = rect.width
-            const percent = (clickPosition / trackWidth) * 100
-            const value = getValueFromPercent(percent)
-
-            // Валидация: значение не должно выходить за пределы min и max
-            const clampedValue = Math.max(min, Math.min(value, max))
-
-            // Определяем, к какому ползунку ближе клик
-            const minPercent = getPercent(localMin)
-            const maxPercent = getPercent(localMax)
-
-            if (Math.abs(percent - minPercent) < Math.abs(percent - maxPercent)) {
-                // Клик ближе к левому ползунку
-                // Ограничить: не больше localMax и не больше maxValue
-                const clampedValueForMin = Math.min(clampedValue, localMax, maxValue)
-                if (clampedValueForMin <= localMax) {
-                    setLocalMin(clampedValueForMin)
-                    latestMinRef.current = clampedValueForMin
+                // Защита от пересечения (дополнительно к MUI disableSwap)
+                if (latestMin > latestMax) {
+                    ;[latestMin, latestMax] = [latestMax, latestMin]
                 }
-            } else {
-                // Клик ближе к правому ползунку
-                // Ограничить: не меньше localMin и не меньше minValue
-                const clampedValueForMax = Math.max(clampedValue, localMin, minValue)
-                if (clampedValueForMax >= localMin) {
-                    setLocalMax(clampedValueForMax)
-                    latestMaxRef.current = clampedValueForMax
+
+                if (latestMin !== minValue || latestMax !== maxValue) {
+                    onChange(latestMin, latestMax)
                 }
-            }
+                timerRef.current = null
+            }, debounceMs)
         },
-        [getPercent, getValueFromPercent, localMin, localMax, minValue, maxValue, min, max]
+        [onChange, debounceMs, minValue, maxValue]
     )
 
-    /**
-     * Запуск debounce
-     */
-    const runDebounce = useCallback(() => {
-        if (timerRef.current) {
-            clearTimeout(timerRef.current)
-        }
+    // Обработчик изменения для MUI
+    const handleChange = useCallback(
+        (_event: Event, newValue: number | number[], activeThumb: number) => {
+            if (!Array.isArray(newValue)) return
 
-        timerRef.current = setTimeout(() => {
-            let latestMin = latestMinRef.current
-            let latestMax = latestMaxRef.current
+            let [newMin, newMax] = newValue as [number, number]
 
-            // Если ползунки пересеклись, переупорядочить их
-            if (latestMin > latestMax) {
-                ;[latestMin, latestMax] = [latestMax, latestMin]
+            // Применяем minDistance если задано
+            if (minDistance > 0 && newMax - newMin < minDistance) {
+                if (activeThumb === 0) {
+                    // Двигаем левый ползунок
+                    newMin = Math.min(newMin, newMax - minDistance)
+                } else {
+                    // Двигаем правый ползунок
+                    newMax = Math.max(newMax, newMin + minDistance)
+                }
             }
 
-            // Защита от лишних вызовов
-            if (latestMin !== minValue || latestMax !== maxValue) {
-                onChange(latestMin, latestMax)
-            }
+            // Клэмпим к общим границам
+            newMin = Math.max(min, Math.min(newMin, max))
+            newMax = Math.max(min, Math.min(newMax, max))
 
-            timerRef.current = null
-        }, debounceMs)
-    }, [onChange, debounceMs, minValue, maxValue])
+            // Обновляем локальный стейт и ref
+            setValue([newMin, newMax])
+            latestValueRef.current = [newMin, newMax]
 
-    /**
-     * Обработчик изменения минимального значения
-     */
-    const handleMinChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const newValue = parseFloat(e.target.value)
-            // Ограничить значение: не меньше min, не больше localMax и не больше maxValue
-            const clampedValue = Math.max(min, Math.min(newValue, localMax, maxValue))
-
-            setLocalMin(clampedValue)
-            latestMinRef.current = clampedValue
-
-            runDebounce()
+            // Запускаем debounce
+            runDebounce(newMin, newMax)
         },
-        [min, localMax, maxValue, runDebounce]
-    )
-
-    /**
-     * Обработчик изменения максимального значения
-     */
-    const handleMaxChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const newValue = parseFloat(e.target.value)
-            // Ограничить значение: не меньше localMin, не больше max и не меньше minValue
-            const clampedValue = Math.max(localMin, minValue, Math.min(newValue, max))
-
-            setLocalMax(clampedValue)
-            latestMaxRef.current = clampedValue
-
-            runDebounce()
-        },
-        [localMin, minValue, max, runDebounce]
+        [min, max, minDistance, runDebounce]
     )
 
     return (
@@ -208,45 +194,33 @@ export const RangeSlider: FC<RangeSliderProps> = ({
             <div className={styles.header}>
                 <span className={styles.label}>Rating</span>
                 <span className={styles.rangeText}>
-                    {localMin.toFixed(1)} - {localMax.toFixed(1)}
+                    {value[0].toFixed(1)} - {value[1].toFixed(1)}
                 </span>
             </div>
 
-            <div className={styles.trackContainer} onClick={handleTrackClick}>
-                <div className={styles.track}>
-                    {/* Индикатор заполненной области */}
-                    <div
-                        className={styles.fill}
-                        style={{
-                            left: `${getPercent(localMin)}%`,
-                            right: `${100 - getPercent(localMax)}%`,
-                        }}
-                    />
-
-                    {/* Минимальный ползунок */}
-                    <input
-                        type="range"
-                        min={min}
-                        max={max}
-                        step={step}
-                        value={localMin}
-                        onChange={handleMinChange}
-                        className={styles.sliderMin}
-                        aria-label="Минимальный рейтинг"
-                    />
-
-                    {/* Максимальный ползунок */}
-                    <input
-                        type="range"
-                        min={min}
-                        max={max}
-                        step={step}
-                        value={localMax}
-                        onChange={handleMaxChange}
-                        className={styles.sliderMax}
-                        aria-label="Максимальный рейтинг"
-                    />
-                </div>
+            <div className={styles.trackContainer}>
+                <CustomSlider
+                    value={value}
+                    onChange={handleChange}
+                    min={min}
+                    max={max}
+                    step={step}
+                    valueLabelDisplay="off" // Отключаем value label
+                    getAriaLabel={() => 'Диапазон рейтинга'}
+                    disableSwap={minDistance === 0}
+                    sx={{
+                        // Точная настройка отступов для выравнивания с текстом "Rating"
+                        // MUI Slider имеет внутренние отступы 12px по умолчанию
+                        // Устанавливаем внешние отступы 20px, чтобы компенсировать
+                        margin: '0 20px',
+                        width: 'calc(100% - 40px)',
+                        // Убираем внутренние отступы MUI
+                        '& .MuiSlider-root': {
+                            padding: 0,
+                            margin: 0,
+                        },
+                    }}
+                />
             </div>
         </div>
     )
