@@ -189,7 +189,7 @@ export const RangeSlider: FC<RangeSliderProps> = ({
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <span className={styles.label}>Rating</span>
+                <span className={styles.label}>Рейтинг</span>
                 <span className={styles.rangeText}>
                     {value[0].toFixed(1)} - {value[1].toFixed(1)}
                 </span>

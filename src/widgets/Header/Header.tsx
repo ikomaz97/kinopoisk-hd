@@ -49,35 +49,35 @@ const Header: FC = () => {
             {/* Main - Главная страница */}
             <li>
               <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.MAIN)}>
-                Main
+                Главная
               </button>
             </li>
 
             {/* Category Movies - Категории фильмов */}
             <li>
               <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.CATEGORY)}>
-                Category Movies
+                Категории
               </button>
             </li>
 
             {/* Filtered Movies - Фильтрация фильмов */}
             <li>
               <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.FILTERED)}>
-                Filtered Movies
+                Фильтр
               </button>
             </li>
 
             {/* Search - Поиск фильмов */}
             <li>
               <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.SEARCH)}>
-                Search
+                Поиск
               </button>
             </li>
 
             {/* Favorites - Избранные фильмы */}
             <li>
               <button className={styles.navLink} onClick={() => handleNavigate(ROUTES.FAVORITES)}>
-                Favorites
+                Избранное
               </button>
             </li>
           </ul>

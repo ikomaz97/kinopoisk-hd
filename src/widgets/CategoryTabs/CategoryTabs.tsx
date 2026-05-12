@@ -17,10 +17,10 @@ type CategoryType = 'popular' | 'top_rated' | 'now_playing' | 'upcoming'
  * Маппинг категорий на локализованные названия
  */
 const CATEGORY_LABELS: Record<CategoryType, string> = {
-  popular: 'Popular',
-  top_rated: 'Top Rated',
-  now_playing: 'Now Playing',
-  upcoming: 'Upcoming',
+  popular: 'Популярные',
+  top_rated: 'Лучшие',
+  now_playing: 'Сейчас в прокате',
+  upcoming: 'Скоро',
 }
 
 /**
@@ -81,4 +81,3 @@ const CategoryTabs: FC<CategoryTabsProps> = ({ activeCategory, onCategoryChange 
 }
 
 export default memo(CategoryTabs)
-
