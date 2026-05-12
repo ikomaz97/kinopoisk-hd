@@ -27,37 +27,59 @@ export const TmdbLogo: FC<TmdbLogoProps> = ({ className }) => {
     <svg
       className={`${styles.logo} ${className || ''}`}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 273.42 223.5168"
+      viewBox="0 0 400 100"
       width="156"
-      height="156"
+      height="39"
       aria-label="TMDB - The Movie Database"
     >
       {/* Фон логотипа - цвет меняется в зависимости от темы */}
-      <rect width="273.42" height="279.396" className={styles.bg} />
+      <rect width="400" height="100" className={styles.bg} />
 
-      {/* Основной текст TMDB - цвет меняется в зависимости от темы */}
+      {/* Текст THE */}
       <text
-        x="136.71"
-        y="200"
+        x="0"
+        y="70"
         className={styles.mainText}
         fontFamily="Arial, sans-serif"
-        fontSize="80"
+        fontSize="60"
         fontWeight="bold"
-        textAnchor="middle"
+        textAnchor="start"
       >
-        TMDB
+        THE
       </text>
 
-      {/* Подзаголовок - цвет фиксированный (голубой) */}
+      {/* Текст M */}
       <text
-        x="136.71"
-        y="240"
-        className={styles.subtitle}
+        x="110"
+        y="70"
+        className={styles.mainText}
         fontFamily="Arial, sans-serif"
-        fontSize="24"
-        textAnchor="middle"
+        fontSize="60"
+        fontWeight="bold"
+        textAnchor="start"
       >
-        The Movie Database
+        M
+      </text>
+
+      {/* Голубой круг вместо O */}
+      <circle
+        cx="165"
+        cy="60"
+        r="15"
+        className={styles.circle}
+      />
+
+      {/* Текст VIE DB */}
+      <text
+        x="185"
+        y="70"
+        className={styles.mainText}
+        fontFamily="Arial, sans-serif"
+        fontSize="60"
+        fontWeight="bold"
+        textAnchor="start"
+      >
+        VIE DB
       </text>
     </svg>
   )
