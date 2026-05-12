@@ -8,6 +8,7 @@ import type { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/shared/constants/routes'
 import { ThemeToggle } from '@/features/theme/ui'
+import { TmdbLogo } from '@/shared/ui'
 import { memo, useCallback } from 'react'
 import styles from './Header.module.css'
 
@@ -39,11 +40,7 @@ const Header: FC = () => {
           onClick={handleLogoClick}
           aria-label="Вернуться на главную страницу"
         >
-          <img
-            src="/tmdb-logo.svg"
-            alt="TMDB"
-            className={styles.logoImg}
-          />
+          <TmdbLogo className={styles.logoImg} />
         </button>
 
         {/* Навигация */}

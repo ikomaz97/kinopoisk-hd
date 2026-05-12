@@ -1,0 +1,36 @@
+/**
+ * Стили для компонента TmdbLogo
+ */
+
+/* Контейнер SVG логотипа */
+.logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Фон логотипа - динамический цвет в зависимости от темы */
+.bg {
+  fill: var(--color-tmdb-bg, #0a0e17);
+  transition: fill 0.3s ease;
+}
+
+/* Основной текст TMDB - динамический цвет в зависимости от темы */
+.mainText {
+  fill: var(--color-tmdb-text, #ffffff);
+  transition: fill 0.3s ease;
+}
+
+/* Подзаголовок - фиксированный голубой цвет */
+.subtitle {
+  fill: #00D4FF;
+  transition: fill 0.3s ease;
+}
+
+/* Адаптивный размер для Header */
+@media (max-width: 768px) {
+  .logo {
+    width: 180px;
+    height: 180px;
+  }
+}
