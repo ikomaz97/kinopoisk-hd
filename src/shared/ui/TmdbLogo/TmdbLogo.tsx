@@ -55,7 +55,7 @@ export const TmdbLogo: FC<TmdbLogoProps> = ({ className }) => {
       <rect
         x="210"
         y="15"
-        width="80"
+        width="90"
         height="50"
         rx="25"
         ry="25"
