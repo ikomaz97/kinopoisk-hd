@@ -27,9 +27,9 @@ export const TmdbLogo: FC<TmdbLogoProps> = ({ className }) => {
     <svg
       className={`${styles.logo} ${className || ''}`}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 273.42 279.396"
-      width="120"
-      height="120"
+      viewBox="0 0 273.42 223.5168"
+      width="156"
+      height="156"
       aria-label="TMDB - The Movie Database"
     >
       {/* Фон логотипа - цвет меняется в зависимости от темы */}
