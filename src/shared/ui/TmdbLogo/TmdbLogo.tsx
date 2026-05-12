@@ -51,12 +51,14 @@ export const TmdbLogo: FC<TmdbLogoProps> = ({ className }) => {
         TMDB
       </text>
       
-      {/* Бирюзовый овальный элемент */}
-      <ellipse
-        cx="245"
-        cy="40"
-        rx="45"
-        ry="30"
+      {/* Бирюзовый прямоугольник с закруглёнными углами */}
+      <rect
+        x="210"
+        y="15"
+        width="80"
+        height="50"
+        rx="25"
+        ry="25"
         className={styles.circle}
       />
     </svg>
