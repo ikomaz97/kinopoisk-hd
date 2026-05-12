@@ -93,7 +93,7 @@ export interface RangeSliderProps {
     /** Шаг изменения значения, по умолчанию 0.1 */
     step?: number
 
-    /** Минимальное расстояние между ползунками, по умолчанию 0 (без ограничения) */
+    /** Минимальное расстояние между ползунками, по умолчанию 0.1 */
     minDistance?: number
 }
 
@@ -108,7 +108,7 @@ export const RangeSlider: FC<RangeSliderProps> = ({
                                                       onChange,
                                                       debounceMs = 200,
                                                       step = 0.1,
-                                                      minDistance = 0, // по умолчанию без ограничения
+                                                      minDistance = 0.1, // по умолчанию минимальное расстояние 0.1
                                                   }) => {
     // Внутренний стейт в формате [min, max] для MUI
     const [value, setValue] = useState<[number, number]>([minValue, maxValue])
@@ -141,12 +141,7 @@ export const RangeSlider: FC<RangeSliderProps> = ({
             if (timerRef.current) clearTimeout(timerRef.current)
 
             timerRef.current = setTimeout(() => {
-                let [latestMin, latestMax] = latestValueRef.current
-
-                // Защита от пересечения (дополнительно к MUI disableSwap)
-                if (latestMin > latestMax) {
-                    ;[latestMin, latestMax] = [latestMax, latestMin]
-                }
+                const [latestMin, latestMax] = latestValueRef.current
 
                 if (latestMin !== minValue || latestMax !== maxValue) {
                     onChange(latestMin, latestMax)
@@ -164,20 +159,22 @@ export const RangeSlider: FC<RangeSliderProps> = ({
 
             let [newMin, newMax] = newValue as [number, number]
 
-            // Применяем minDistance если задано
-            if (minDistance > 0 && newMax - newMin < minDistance) {
+            // Проверяем минимальное расстояние между ползунками
+            const distance = newMax - newMin
+
+            if (distance < minDistance) {
                 if (activeThumb === 0) {
-                    // Двигаем левый ползунок
-                    newMin = Math.min(newMin, newMax - minDistance)
+                    // Двигаем левый ползунок - не даем ему зайти за правый
+                    newMin = Math.max(min, newMax - minDistance)
                 } else {
-                    // Двигаем правый ползунок
-                    newMax = Math.max(newMax, newMin + minDistance)
+                    // Двигаем правый ползунок - не даем ему зайти за левый
+                    newMax = Math.min(max, newMin + minDistance)
                 }
             }
 
             // Клэмпим к общим границам
-            newMin = Math.max(min, Math.min(newMin, max))
-            newMax = Math.max(min, Math.min(newMax, max))
+            newMin = Math.max(min, Math.min(newMin, newMax))
+            newMax = Math.max(newMin, Math.min(newMax, max))
 
             // Обновляем локальный стейт и ref
             setValue([newMin, newMax])
@@ -207,11 +204,9 @@ export const RangeSlider: FC<RangeSliderProps> = ({
                     step={step}
                     valueLabelDisplay="off" // Отключаем value label
                     getAriaLabel={() => 'Диапазон рейтинга'}
-                    disableSwap={minDistance === 0}
+                    disableSwap={true} // Запрещаем ползункам меняться местами
                     sx={{
                         // Точная настройка отступов для выравнивания с текстом "Rating"
-                        // MUI Slider имеет внутренние отступы 12px по умолчанию
-                        // Устанавливаем внешние отступы 20px, чтобы компенсировать
                         margin: '0 20px',
                         width: 'calc(100% - 40px)',
                         // Убираем внутренние отступы MUI
