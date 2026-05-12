@@ -8,6 +8,7 @@
   gap: 12px;
   margin-bottom: 30px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Кнопка вкладки */
@@ -53,4 +54,3 @@
     font-size: 0.85rem;
   }
 }
-
