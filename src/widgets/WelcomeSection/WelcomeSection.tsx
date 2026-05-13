@@ -91,6 +91,9 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
             className={styles.searchInput}
             placeholder="Введите название фильма..."
             autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
             value={searchQuery}
             onChange={handleSearchChange}
           />
