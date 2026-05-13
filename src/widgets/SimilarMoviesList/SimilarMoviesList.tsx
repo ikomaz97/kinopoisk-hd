@@ -1,6 +1,6 @@
 /**
  * Виджет похожих фильмов
- * Отображает до 6 карточек похожих фильмов в горизонтальном ряду
+ * Отображает до 6 карточек похожих фильмов в виде сетки
  */
 
 import type { FC } from 'react'
@@ -36,14 +36,11 @@ const SimilarMoviesList: FC<{ movieId: number }> = ({ movieId }) => {
     return <p className={styles.noResults}>Похожие фильмы не найдены</p>
   }
 
-  // Показываем ограниченный список похожих фильмов
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
-      </div>
+    <>
+      <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
       <MovieList movies={limitedMovies} />
-    </div>
+    </>
   )
 }
 

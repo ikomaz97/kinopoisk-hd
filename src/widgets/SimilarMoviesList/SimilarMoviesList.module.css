@@ -2,35 +2,14 @@
  * Стили для виджета похожих фильмов
  */
 
-.container {
-  padding: 24px;
-  background-color: var(--color-bg-secondary);
-  border-radius: 12px;
-  margin-top: 24px;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
+/* Заголовок секции — как на MainPage */
 .sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
+  font-size: 2rem;
+  margin-bottom: 20px;
   color: var(--color-text-primary);
 }
 
-.countBadge {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  background-color: var(--color-bg-tertiary);
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
+/* Сообщение об отсутствии похожих фильмов */
 .noResults {
   color: var(--color-text-secondary);
   text-align: center;

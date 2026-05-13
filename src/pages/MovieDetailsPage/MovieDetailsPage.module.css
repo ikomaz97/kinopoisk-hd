@@ -248,22 +248,10 @@
   border-radius: 12px;
 }
 
-/* Секция похожих фильмов */
+/* Секция похожих фильмов — полноширинный блок под гридом */
 .similarMoviesSection {
   margin-top: 40px;
-}
-
-.similarMoviesTitle {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 24px;
-}
-
-.similarMoviesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
+  margin-bottom: 40px;
 }
 
 /* Адаптивность для планшетов */

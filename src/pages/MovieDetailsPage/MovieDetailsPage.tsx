@@ -244,12 +244,12 @@ const MovieDetailsPage: FC = () => {
             </div>
           )}
         </div>
-
-        {/* Список похожих фильмов */}
-        <div className={styles.similarMoviesSection}>
-          <SimilarMoviesList movieId={movie.id} />
-        </div>
       </div>
+
+      {/* Список похожих фильмов — полноширинный блок под гридом */}
+      <section className={styles.similarMoviesSection}>
+        <SimilarMoviesList movieId={movie.id} />
+      </section>
     </div>
   )
 }
