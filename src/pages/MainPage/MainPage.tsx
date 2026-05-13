@@ -11,6 +11,7 @@ import {
   useGetNowPlayingMoviesQuery,
 } from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
+import { WelcomeSection } from '@/widgets/WelcomeSection'
 import { Loader } from '@/shared/ui/Loader'
 import styles from './MainPage.module.css'
 
@@ -31,8 +32,19 @@ const MainPage: FC = () => {
   // Получение фильмов, которые сейчас в прокате
   const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(1)
 
+  /**
+   * Обработчик поиска
+   * @param _query текст поиска (не используется, так как навигация происходит внутри WelcomeSection)
+   */
+  const handleSearch = (_query: string) => {
+    // Логика обработки поиска (если потребуется на главной)
+  }
+
   return (
     <div className={styles.container}>
+      {/* Приветственная секция */}
+      <WelcomeSection _onSearch={handleSearch} />
+
       {/* Секция популярных фильмов */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Популярные фильмы</h2>
@@ -85,4 +97,3 @@ const MainPage: FC = () => {
 }
 
 export default MainPage
-

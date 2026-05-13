@@ -6,7 +6,12 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 20px;
+}
+
+/* Приветственная секция */
+.welcomeSection {
+  margin-bottom: 40px;
 }
 
 /* Заголовок секции */
@@ -20,4 +25,3 @@
 .section {
   margin-bottom: 40px;
 }
-
