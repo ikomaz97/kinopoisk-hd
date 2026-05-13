@@ -5,13 +5,13 @@
 /* Header контейнер */
 .header {
   background-color: var(--color-header, #1a1a1a);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */  /* Убрали тень */
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid var(--color-border);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  /* border-bottom: 1px solid var(--color-border); */ /* Убрали границу */
+  transition: background-color 0.3s ease;
 }
 
 /* Внутренний контейнер Header */
