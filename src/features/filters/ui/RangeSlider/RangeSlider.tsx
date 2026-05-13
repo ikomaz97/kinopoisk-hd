@@ -7,7 +7,7 @@
  * - Защита от пересечения ползунков
  * - Корректная работа при быстром drag
  * - Без утечек (cleanup таймера)
- * - Миграция на MUI Slider с сохранением дизайна
+ * - Динамический z-index: активный ползунок всегда поверх
  */
 
 import type { FC } from 'react'
@@ -55,7 +55,6 @@ const CustomSlider = styled(Slider)({
         '&.Mui-active': {
             transform: 'translate(-50%, -50%) scale(1.2)',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-            zIndex: 3, // Активный ползунок поверх всех
         },
         // Стили для focus visible
         '&.Mui-focusVisible': {
@@ -63,14 +62,6 @@ const CustomSlider = styled(Slider)({
             outlineOffset: 2,
             transform: 'translate(-50%, -50%) scale(1.1)',
         },
-    },
-    // Левый ползунок (min) — выше правого, чтобы не залипал под ним
-    '& .MuiSlider-thumb[data-index="0"]': {
-        zIndex: 2,
-    },
-    // Правый ползунок (max) — ниже левого по умолчанию
-    '& .MuiSlider-thumb[data-index="1"]': {
-        zIndex: 1,
     },
     '& .MuiSlider-valueLabel': {
         display: 'none', // Полностью скрываем value label
@@ -222,6 +213,10 @@ export const RangeSlider: FC<RangeSliderProps> = ({
                         '& .MuiSlider-root': {
                             padding: 0,
                             margin: 0,
+                        },
+                        // Активный ползунок всегда поверх остальных
+                        '& .MuiSlider-thumb.Mui-active': {
+                            zIndex: 3,
                         },
                     }}
                 />
