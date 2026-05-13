@@ -93,7 +93,7 @@ export interface RangeSliderProps {
     /** Шаг изменения значения, по умолчанию 0.1 */
     step?: number
 
-    /** Минимальное расстояние между ползунками, по умолчанию 0.1 */
+    /** Минимальное расстояние между ползунками, по умолчанию 0 */
     minDistance?: number
 }
 
@@ -101,15 +101,15 @@ export interface RangeSliderProps {
  * Двухползунковый слайдер диапазона на базе MUI Slider
  */
 export const RangeSlider: FC<RangeSliderProps> = ({
-                                                      min,
-                                                      max,
-                                                      minValue,
-                                                      maxValue,
-                                                      onChange,
-                                                      debounceMs = 200,
-                                                      step = 0.1,
-                                                      minDistance = 0.1, // по умолчанию минимальное расстояние 0.1
-                                                  }) => {
+                                                       min,
+                                                       max,
+                                                       minValue,
+                                                       maxValue,
+                                                       onChange,
+                                                       debounceMs = 200,
+                                                       step = 0.1,
+                                                       minDistance = 0, // минимальное расстояние между ползунками
+                                                   }) => {
     // Внутренний стейт в формате [min, max] для MUI
     const [value, setValue] = useState<[number, number]>([minValue, maxValue])
 
