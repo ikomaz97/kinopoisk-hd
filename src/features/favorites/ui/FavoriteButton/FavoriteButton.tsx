@@ -53,10 +53,14 @@ const FavoriteButton: FC<FavoriteButtonProps> = ({
   className = ''
 }) => {
   const dispatch = useDispatch()
-  const favorites = useSelector((state: RootState) => state.favorites.items)
-  const isFavorite = favorites.some((item) => item.id === movieId)
+  const isFavorite = useSelector((state: RootState) =>
+    state.favorites.items.some((item) => item.id === movieId)
+  )
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
     if (isFavorite) {
       dispatch(removeFromFavorites(movieId))
     } else {
