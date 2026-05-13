@@ -33,7 +33,6 @@ const SimilarMoviesList: FC<{ movieId: number }> = ({ movieId }) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
-        <span className={styles.countBadge}>Найдено: {similarMovies.results.length}</span>
       </div>
       <MovieList movies={sortedMovies} />
     </div>
