@@ -3,7 +3,7 @@
  * Отображает приветственную секцию с фоновым изображением популярного фильма и поиском
  */
 
-import type { FC, FormEvent } from 'react'
+import type { FC, FormEvent, ChangeEvent } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPopularMoviesQuery } from '@/entities/movie/api'
@@ -40,6 +40,17 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
     }
     return null
   })
+
+  // Состояние для отслеживания текста в поле поиска
+  const [searchQuery, setSearchQuery] = useState<string>('')
+
+  /**
+   * Обработчик изменения текста в поле поиска
+   * @param event событие изменения input
+   */
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value)
+  }
 
   /**
    * Обработчик отправки формы поиска
@@ -80,11 +91,13 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
             className={styles.searchInput}
             placeholder="Введите название фильма..."
             autoComplete="off"
+            value={searchQuery}
+            onChange={handleSearchChange}
           />
           <button
             type="submit"
             className={`${styles.button} ${styles.primary}`}
-            disabled={!randomBackdropUrl && !isLoading}
+            disabled={!searchQuery.trim() || (!randomBackdropUrl && !isLoading)}
           >
             Поиск
           </button>
