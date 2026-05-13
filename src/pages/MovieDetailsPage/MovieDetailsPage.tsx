@@ -247,7 +247,6 @@ const MovieDetailsPage: FC = () => {
 
         {/* Список похожих фильмов */}
         <div className={styles.similarMoviesSection}>
-          <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
           <SimilarMoviesList movieId={movie.id} />
         </div>
       </div>

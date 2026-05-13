@@ -25,16 +25,19 @@ const SimilarMoviesList: FC<{ movieId: number }> = ({ movieId }) => {
     return <p className={styles.noResults}>Похожие фильмы не найдены</p>
   }
 
-  // ПРАВИЛЬНО: показываем не более 6 фильмов или все если их меньше
-  // Math.min гарантирует, что мы не выйдем за пределы массива
-  const moviesToShow = similarMovies.results.slice(0, Math.min(6, similarMovies.results.length))
+  // Сортируем фильмы по рейтингу (по убыванию)
+  const sortedMovies = [...similarMovies.results].sort((a, b) => b.vote_average - a.vote_average)
 
+  // Показываем все доступные похожие фильмы
   return (
     <div className={styles.container}>
-      <MovieList movies={moviesToShow} />
+      <div className={styles.header}>
+        <h2 className={styles.sectionTitle}>Похожие фильмы</h2>
+        <span className={styles.countBadge}>Найдено: {similarMovies.results.length}</span>
+      </div>
+      <MovieList movies={sortedMovies} />
     </div>
   )
 }
 
 export default SimilarMoviesList
-
