@@ -80,7 +80,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  padding-top: 4px;
 }
 
 /* Отступ для body при загрузке, чтобы контент не перекрывался фиксированной полосой */
