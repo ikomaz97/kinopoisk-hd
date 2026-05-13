@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPopularMoviesQuery } from '@/entities/movie/api'
 import { getBackdropUrl } from '@/shared/lib/image'
+import { SearchInput } from '@/shared/ui/SearchInput'
 import styles from './WelcomeSection.module.css'
 
 /**
@@ -74,8 +75,7 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
 
         {/* Форма поиска */}
         <form className={styles.searchForm} onSubmit={handleSearchSubmit}>
-          <input
-            type="text"
+          <SearchInput
             name="search"
             className={styles.searchInput}
             placeholder="Введите название фильма..."

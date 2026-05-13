@@ -1,0 +1,22 @@
+/**
+ * Стили компонента SearchInput
+ * Переиспользуются со страницы поиска
+ */
+
+/* Поле поиска */
+.searchInput {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  margin-bottom: 20px;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
