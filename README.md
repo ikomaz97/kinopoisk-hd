@@ -1,73 +1,136 @@
-# React + TypeScript + Vite
+# КиноHD — Поиск и каталог фильмов
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**КиноHD** — это веб-приложение для поиска, просмотра и каталогизации фильмов с использованием **TMDB API**. Проект построен на современном стеке React + TypeScript с архитектурой **Feature-Sliced Design (FSD)**.
 
-Currently, two official plugins are available:
+## Возможности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Популярные, лучшие, новинки и предстоящие фильмы** на главной странице
+- **Поиск фильмов** по названию с пагинацией
+- **Фильтрация** по жанрам, рейтингу и сортировке
+- **Детальная страница фильма** с описанием, актёрами, трейлерами и похожими фильмами
+- **Избранное** — добавление/удаление фильмов с синхронизацией в `localStorage`
+- **Тёмная и светлая темы** с сохранением выбора
+- **Адаптивный дизайн** и CSS Modules
+- **Поддержка русского языка** интерфейса и данных
 
-## React Compiler
+## Стек технологий
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Технология | Назначение |
+|---|---|
+| **React 19** | UI-библиотека |
+| **TypeScript** (strict mode) | Типизация |
+| **Vite 8** | Сборщик |
+| **Redux Toolkit** (RTK Query) | Управление состоянием и работа с API |
+| **React Router 7** | Маршрутизация |
+| **Zod** | Валидация ответов API |
+| **CSS Modules** | Стилизация компонентов |
+| **Material UI** (LinearProgress, Skeleton) | Готовые UI-компоненты |
+| **react-toastify** | Уведомления об ошибках |
 
-## Expanding the ESLint configuration
+## Архитектура (Feature-Sliced Design)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Проект организован по методологии **Feature-Sliced Design**:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── app/              # Инициализация приложения
+│   ├── providers/    # Провайдеры (Redux Store, Theme, Router)
+│   └── routes/       # Конфигурация маршрутов
+├── pages/            # Страницы-роуты (композиция виджетов и фич)
+│   ├── MainPage/     # Главная
+│   ├── CategoryPage/ # Категории
+│   ├── FilteredPage/ # Фильтрация
+│   ├── SearchPage/   # Поиск
+│   ├── FavoritesPage/# Избранное
+│   ├── MovieDetailsPage/ # Детали фильма
+│   └── NotFoundPage/ # 404
+├── widgets/          # Крупные UI-блоки (Header, Footer, MovieList)
+├── features/         # Бизнес-фичи
+│   ├── favorites/    # Избранное (слайс + localStorage)
+│   ├── filters/      # Фильтры и сортировка
+│   ├── search/       # Поиск по названию
+│   └── theme/        # Тёмная/светлая тема
+├── entities/         # Бизнес-сущности
+│   ├── movie/        # Фильмы (API, типы, схемы, UI-карточки)
+│   └── actor/        # Актёры (заготовка)
+├── shared/           # Переиспользуемые модули
+│   ├── api/          # Базовый RTK Query API
+│   ├── constants/    # Константы (API, маршруты, жанры)
+│   ├── hooks/        # Общие хуки (useDebounce, useGlobalLoading)
+│   ├── lib/          # Утилиты (изображения, localStorage)
+│   ├── types/        # Общие типы
+│   ├── ui/           # UI-кит (Button, Loader, Pagination, Badge...)
+│   └── utils/        # Вспомогательные функции
+└── styles/           # Глобальные стили
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Страницы и маршруты
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Маршрут | Страница |
+|---|---|
+| `/` | **MainPage** — популярные, лучшие, новинки, предстоящие |
+| `/category/:type` | **CategoryPage** — список по категории (`popular`, `top_rated`, `upcoming`, `now_playing`) |
+| `/filtered` | **FilteredPage** — расширенная фильтрация по жанрам и рейтингу |
+| `/search` | **SearchPage** — поиск фильмов по названию |
+| `/favorites` | **FavoritesPage** — избранные фильмы |
+| `/movie/:id` | **MovieDetailsPage** — детальная информация о фильме |
+| `*` | **NotFoundPage** — 404 |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Установка и запуск
+
+### Требования
+
+- Node.js 18+
+- npm / pnpm / yarn
+- Токен доступа к [TMDB API](https://www.themoviedb.org/settings/api)
+
+### Установка
+
+```bash
+# Клонировать репозиторий
+git clone <url-репозитория>
+cd kinopoisk-hd
+
+# Установить зависимости
+pnpm install
 ```
+
+### Настройка TMDB API
+
+Создайте файл `.env.local` в корне проекта:
+
+```env
+VITE_TMDB_ACCESS_TOKEN=ваш_токен_доступа
+```
+
+Получить токен можно на [TMDB API Settings](https://www.themoviedb.org/settings/api) после регистрации.
+
+### Запуск в режиме разработки
+
+```bash
+pnpm dev
+```
+
+### Сборка для production
+
+```bash
+pnpm build
+```
+
+### Предпросмотр production-сборки
+
+```bash
+pnpm preview
+```
+
+## Линтинг
+
+Проект использует ESLint с TypeScript-правилами:
+
+```bash
+pnpm lint
+```
+
+## Лицензия
+
+Проект распространяется под лицензией **MIT**.
