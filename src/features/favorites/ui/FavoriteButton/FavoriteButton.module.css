@@ -10,6 +10,7 @@
   font-size: 1.5rem;
   padding: 8px;
   transition: transform 0.2s ease;
+  border-radius: 50%; /* ← Круглая форма для свечения */
 }
 
 .button:hover {
@@ -20,8 +21,8 @@
 .active {
   opacity: 1 !important;
   background: none !important;
-  box-shadow: 0 0 12px rgba(255, 77, 109, 0.6);
-  animation: pulse 0.3s ease;
+  box-shadow: none;
+  animation: none;
 }
 
 @keyframes pulse {
