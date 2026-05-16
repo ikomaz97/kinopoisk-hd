@@ -81,6 +81,19 @@
   min-width: 48px;
 }
 
+/* Цвета рейтинга */
+.ratingGreen {
+  background-color: var(--color-success, #22c55e);
+}
+
+.ratingYellow {
+  background-color: #ffd600;
+}
+
+.ratingRed {
+  background-color: var(--color-error, #ef4444);
+}
+
 /* Кнопка избранного (видна только при наведении) */
 .favoriteButton {
   position: absolute;

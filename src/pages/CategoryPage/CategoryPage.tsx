@@ -11,7 +11,7 @@ import { CategoryTabs } from '@/widgets/CategoryTabs'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
 import { LinearProgress } from '@/shared/ui/Loader'
-import Skeleton from '@mui/material/Skeleton'
+import { Skeleton } from '@/shared/ui/Skeleton'
 import styles from './CategoryPage.module.css'
 
 
@@ -82,8 +82,12 @@ const CategoryPage: FC = () => {
       {/* Контент страницы */}
       {isLoading && !data ? (
         <>
-          <Skeleton variant="text" sx={{ fontSize: '2rem', mb: 2 }} />
-          <Skeleton variant="rectangular" width="100%" height={300} />
+          <div className={styles.skeletonTitle}>
+            <Skeleton variant="text" />
+          </div>
+          <div className={styles.skeletonList}>
+            <Skeleton variant="rectangular" />
+          </div>
         </>
       ) : error ? (
         <p className={styles.error}>Ошибка при загрузке фильмов. Попробуйте позже.</p>

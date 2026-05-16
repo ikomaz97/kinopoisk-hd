@@ -1,0 +1,28 @@
+/**
+ * Стили компонента Skeleton
+ * Индикатор-заглушка для контента, который ещё загружается
+ */
+
+.root {
+  background: var(--color-bg-tertiary, #1a2435);
+  border-radius: 4px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.text {
+  height: 1em;
+  margin-bottom: 0.5em;
+}
+
+.rectangular {
+  border-radius: 4px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}

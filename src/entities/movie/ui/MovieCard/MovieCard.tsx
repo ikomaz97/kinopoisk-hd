@@ -33,14 +33,14 @@ export interface MovieCardProps {
  * @returns React компонент MovieCard
  */
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {
-  // Определение цвета рейтинга
-  const getRatingColor = (rating: number) => {
-    if (rating >= 8) return '#00c853' // зеленый
-    if (rating >= 6) return '#ffd600' // желтый
-    return '#ff5252' // красный
+  // Определение класса цвета рейтинга
+  const getRatingClass = (rating: number) => {
+    if (rating >= 8) return styles.ratingGreen
+    if (rating >= 6) return styles.ratingYellow
+    return styles.ratingRed
   }
 
-  const ratingColor = getRatingColor(movie.vote_average)
+  const ratingClass = getRatingClass(movie.vote_average)
 
   return (
     <div className={styles.card}>
@@ -56,7 +56,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 
         {/* Рейтинг в нижнем правом углу */}
         <div className={styles.ratingContainer}>
-          <div className={styles.ratingCircle} style={{ backgroundColor: ratingColor }}>
+          <div className={`${styles.ratingCircle} ${ratingClass}`}>
             {movie.vote_average.toFixed(1)}
           </div>
         </div>

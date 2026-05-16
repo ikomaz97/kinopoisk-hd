@@ -1,9 +1,10 @@
 /**
- * Redis слайс для управления темой приложения
+ * Redux слайс для управления темой приложения
  * Содержит логику переключения между темной и светлой темами
  */
 
 import { createSlice } from '@reduxjs/toolkit'
+import { getFromStorage, setToStorage } from '@/shared/lib/storage'
 
 /**
  * Тип темы: 'light' (светлая) или 'dark' (темная)
@@ -17,6 +18,9 @@ interface ThemeState {
   mode: ThemeMode
 }
 
+/** Ключ для хранения темы в localStorage */
+const THEME_KEY = 'theme'
+
 /**
  * Безопасно получает тему из localStorage
  * Учитывает SSR и недоступность localStorage в приватных окнах
@@ -28,18 +32,10 @@ const getInitialTheme = (): ThemeMode => {
     return 'dark'
   }
 
-  try {
-    const stored = localStorage.getItem('theme')
-    // Валидируем, что это реально 'light' или 'dark'
-    if (stored === 'light' || stored === 'dark') {
-      return stored
-    }
-  } catch (error) {
-    // Игнорируем ошибки доступа к localStorage
-    // Может быть в приватных окнах браузера или при отключённых cookies
-    if (error instanceof Error) {
-      console.error('Ошибка доступа к localStorage при загрузке темы:', error.message)
-    }
+  const stored = getFromStorage<string>(THEME_KEY)
+  // Валидируем, что это реально 'light' или 'dark'
+  if (stored === 'light' || stored === 'dark') {
+    return stored
   }
 
   // Возвращаем дефолт
@@ -67,7 +63,7 @@ const themeSlice = createSlice({
     toggleTheme: (state) => {
       state.mode = state.mode === 'dark' ? 'light' : 'dark'
       try {
-        localStorage.setItem('theme', state.mode)
+        setToStorage(THEME_KEY, state.mode)
       } catch (error) {
         // Ошибка сохранения не должна сломать приложение
         if (error instanceof Error) {
@@ -84,7 +80,7 @@ const themeSlice = createSlice({
     setTheme: (state, action: { payload: ThemeMode }) => {
       state.mode = action.payload
       try {
-        localStorage.setItem('theme', state.mode)
+        setToStorage(THEME_KEY, state.mode)
       } catch (error) {
         // Ошибка сохранения не должна сломать приложение
         if (error instanceof Error) {
@@ -97,4 +93,3 @@ const themeSlice = createSlice({
 
 export const { toggleTheme, setTheme } = themeSlice.actions
 export default themeSlice.reducer
-

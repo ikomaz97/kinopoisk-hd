@@ -1,0 +1,30 @@
+/**
+ * Стили компонента SearchBar
+ */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.input {
+  flex: 1;
+}
+
+.button {
+  padding: 8px 16px;
+  background: var(--color-accent, #6366f1);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: opacity 0.2s;
+}
+
+.button:hover {
+  opacity: 0.9;
+}

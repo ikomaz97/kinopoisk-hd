@@ -38,7 +38,7 @@ const AppRouter = () => {
       <Route path={ROUTES.FAVORITES} element={<FavoritesPage />} />
 
       {/* Страница деталей фильма */}
-      <Route path="/movie/:id" element={<MovieDetailsPage />} />
+      <Route path={ROUTES.MOVIE_DETAILS_PATTERN} element={<MovieDetailsPage />} />
 
       {/* Страница 404 - не найдено */}
       <Route path="*" element={<NotFoundPage />} />

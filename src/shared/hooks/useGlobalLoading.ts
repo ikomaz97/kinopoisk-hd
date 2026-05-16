@@ -19,8 +19,6 @@ const excludedEndpoints = [
   'getSimilarMovies',
   'discoverMovies',
   'getGenres',
-  'getActorDetails',
-  'searchActors',
 ]
 
 /**

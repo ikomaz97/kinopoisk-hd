@@ -71,7 +71,7 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
       {randomBackdropUrl && (
         <div
           className={styles.background}
-          style={{ backgroundImage: `url(${randomBackdropUrl})` }}
+          style={{ '--bg-image': `url(${randomBackdropUrl})` } as React.CSSProperties}
           aria-hidden="true"
         />
       )}

@@ -4,40 +4,20 @@
  */
 
 import type { FC } from 'react'
-import { LinearProgress } from '@mui/material'
+import LinearProgress from './LinearProgress'
 import styles from './Loader.module.css'
 
 /**
- * Пропсы для компонента Loader
- */
-interface LoaderProps {
-  /**
-   * Ширина загрузчика в процентах
-   */
-  width?: string
-}
-
-/**
  * Компонент индикатора загрузки
- * Использует Material UI LinearProgress
- * @param width ширина загрузчика
+ * Использует кастомный LinearProgress из UI-кита
  * @returns React компонент Loader
  */
-const Loader: FC<LoaderProps> = ({ width = '100%' }) => {
+const Loader: FC = () => {
   return (
     <div className={styles.loader}>
-      <LinearProgress
-        className={styles.progress}
-        sx={{
-          width,
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: 'var(--color-accent)',
-          }
-        }}
-      />
+      <LinearProgress />
     </div>
   )
 }
 
 export default Loader
-

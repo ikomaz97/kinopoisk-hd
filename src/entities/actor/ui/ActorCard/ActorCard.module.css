@@ -1,0 +1,37 @@
+/**
+ * Стили компонента ActorCard
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 140px;
+}
+
+.photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-bg-tertiary, #1a2435);
+  margin-bottom: 8px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #ffffff);
+}
+
+.character {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary, #b3b3b3);
+}

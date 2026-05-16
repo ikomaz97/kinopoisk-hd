@@ -1,3 +1,8 @@
+/**
+ * Утилита для отображения toast-сообщений об ошибках.
+ * Использует библиотеку react-toastify.
+ */
+
 import { toast } from 'react-toastify';
 
 /**

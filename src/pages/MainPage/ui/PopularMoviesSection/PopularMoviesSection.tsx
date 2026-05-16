@@ -42,7 +42,7 @@ const PopularMoviesSection: FC<PopularMoviesSectionProps> = ({ movies, isLoading
     <section className={styles.section}>
       {/* Заголовок секции */}
       <div className={styles.header}>
-        <h2 className={styles.title}>Popular Movies</h2>
+        <h2 className={styles.title}>Популярные фильмы</h2>
       </div>
 
       {/* Список фильмов */}
@@ -55,7 +55,7 @@ const PopularMoviesSection: FC<PopularMoviesSectionProps> = ({ movies, isLoading
           {/* Кнопка просмотра всех фильмов */}
           <div className={styles.footer}>
             <button className={styles.viewMoreButton} onClick={handleViewMore}>
-              View More
+              Смотреть все
             </button>
           </div>
         </>
@@ -67,4 +67,3 @@ const PopularMoviesSection: FC<PopularMoviesSectionProps> = ({ movies, isLoading
 }
 
 export default PopularMoviesSection
-

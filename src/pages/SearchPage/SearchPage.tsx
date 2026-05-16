@@ -8,8 +8,8 @@ import { useSearchParams } from 'react-router-dom'
 import { useSearchMoviesQuery } from '@/entities/movie/api'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
-import { Loader } from '@/shared/ui/Loader'
-import { LinearProgress } from '@/shared/ui/Loader'
+import { Loader, LinearProgress } from '@/shared/ui/Loader'
+import { SearchInput } from '@/shared/ui/SearchInput'
 import styles from './SearchPage.module.css'
 
 /**
@@ -63,8 +63,7 @@ const SearchPage: FC = () => {
       <h1 className={styles.pageTitle}>Поиск фильмов</h1>
 
       {/* Поле поиска */}
-      <input
-        type="text"
+      <SearchInput
         className={styles.searchInput}
         placeholder="Введите название фильма..."
         value={searchQuery}

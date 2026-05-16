@@ -5,8 +5,8 @@
 
 /** Жанры TMDB с их ID и названиями */
 export const GENRES = [
-  { id: 28, name: '��оевик' },
-  { id: 12, name: 'Приключение' },
+  { id: 28, name: 'Боевик' },
+  { id: 12, name: 'Приключения' },
   { id: 16, name: 'Мультфильм' },
   { id: 35, name: 'Комедия' },
   { id: 80, name: 'Криминал' },
@@ -38,6 +38,5 @@ export const SORT_OPTIONS = [
   { value: 'title.desc', label: 'По названию (Z-A)' },
 ] as const
 
-/** Т��п параметра сортировки */
+/** Тип параметра сортировки */
 export type SortByValue = typeof SORT_OPTIONS[number]['value']
-

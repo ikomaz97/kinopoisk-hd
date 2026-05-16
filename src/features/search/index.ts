@@ -1,0 +1,8 @@
+/**
+ * Экспорт фичи поиска
+ */
+
+export * from './model'
+export * from './hooks'
+export * from './ui'
+

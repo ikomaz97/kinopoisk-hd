@@ -1,3 +1,8 @@
+/**
+ * Универсальная обработка ошибок RTK Query.
+ * Выводит toast‑сообщения в зависимости от типа и кода ошибки.
+ */
+
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { errorToast } from '@/shared/utils/errorToast';
 import { isErrorWithProperty } from '@/shared/utils/isErrorWithProperty';
@@ -5,8 +10,8 @@ import { isErrorWithDetailArray } from '@/shared/utils/isErrorWithDetailArray';
 import { trimToMaxLength } from '@/shared/utils/trimToMaxLength';
 
 /**
- * Универсальная обработка ошибок RTK Query.
- * Выводит toast‑сообщения в зависимости от типа и кода ошибки.
+ * Обработчик ошибок RTK Query
+ * @param error объект ошибки из RTK Query
  */
 export const handleErrors = (error: FetchBaseQueryError) => {
   if (!error) return;
