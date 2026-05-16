@@ -14,8 +14,8 @@ import { useDiscoverMoviesQuery } from '@/entities/movie/api'
 import { FiltersPanel } from '@/features/filters/ui'
 import { MovieList } from '@/widgets/MovieList'
 import { Pagination } from '@/shared/ui/Pagination'
-import { Loader } from '@/shared/ui/Loader'
 import { LinearProgress } from '@/shared/ui/Loader'
+import { Skeleton } from '@/shared/ui/Skeleton'
 import styles from './FilteredPage.module.css'
 
 /**
@@ -38,7 +38,6 @@ const FilteredPage: FC = () => {
 
   /**
    * Обработчик смены страницы
-   * Обновляет Redux-состояние и синхронизирует с URL
    */
   const handlePageChange = useCallback(
     (page: number) => {
@@ -51,7 +50,6 @@ const FilteredPage: FC = () => {
 
   /**
    * Обработчик сброса фильтров
-   * Сбрасывает Redux-состояние и перенаправляет на страницу с фильтрами
    */
   const handleResetFilters = useCallback(() => {
     dispatch(resetFilters())
@@ -62,7 +60,7 @@ const FilteredPage: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {/* Левая колонка: панель фильтров со sticky-позиционированием */}
+        {/* Левая колонка: панель фильтров */}
         <div className={styles.filtersWrapper}>
           <FiltersPanel onReset={handleResetFilters} />
         </div>
@@ -70,7 +68,11 @@ const FilteredPage: FC = () => {
         {/* Правая колонка: список фильмов */}
         <main className={styles.main}>
           {isLoading ? (
-            <Loader />
+            <div className={styles.skeletonGrid}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} variant="rectangular" />
+              ))}
+            </div>
           ) : error ? (
             <p className={styles.error}>Ошибка при загрузке фильмов. Попробуйте позже.</p>
           ) : data && data.movies.length > 0 ? (

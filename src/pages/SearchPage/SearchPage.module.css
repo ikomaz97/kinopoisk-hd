@@ -41,3 +41,48 @@
   font-size: 1.2rem;
 }
 
+/* Обёртка поля поиска для позиционирования крестика */
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.searchWrapper .searchInput {
+  margin-bottom: 0;
+  padding-right: 44px;
+}
+
+/* Крестик очистки поля поиска */
+.clearButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.clearButton:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-tertiary);
+}
+
+/* Сетка скелетонов на время загрузки */
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.skeletonGrid > * {
+  aspect-ratio: 2 / 3;
+  min-height: 300px;
+}

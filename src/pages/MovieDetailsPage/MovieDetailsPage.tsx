@@ -10,7 +10,7 @@ import { useGetMovieDetailsQuery } from '@/entities/movie/api'
 import type { CastMember, CrewMember } from '@/entities/movie'
 import { getBackdropUrl, getProfileUrl, getPosterUrl } from '@/shared/lib/image'
 import { Badge } from '@/shared/ui/Badge'
-import { Loader } from '@/shared/ui/Loader'
+import { Skeleton } from '@/shared/ui/Skeleton'
 import { FavoriteButton } from '@/features/favorites/ui'
 import { SimilarMoviesList } from '@/widgets/SimilarMoviesList'
 import styles from './MovieDetailsPage.module.css'
@@ -81,7 +81,20 @@ const MovieDetailsPage: FC = () => {
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <Loader />
+        <button onClick={handleBackClick} className={styles.backButton}>
+          ← Назад
+        </button>
+        <div className={styles.skeletonContent}>
+          <div className={styles.skeletonPoster}>
+            <Skeleton variant="rectangular" />
+          </div>
+          <div className={styles.skeletonInfo}>
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+            <Skeleton variant="text" />
+          </div>
+        </div>
       </div>
     )
   }

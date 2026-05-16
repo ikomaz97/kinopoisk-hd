@@ -10,9 +10,9 @@ import {
   useGetUpcomingMoviesQuery,
   useGetNowPlayingMoviesQuery,
 } from '@/entities/movie/api'
-import { MovieList } from '@/widgets/MovieList'
+import { MovieSection } from '@/widgets/MovieSection'
+import { ROUTES } from '@/shared/constants/routes'
 import { WelcomeSection } from '@/widgets/WelcomeSection'
-import { Loader } from '@/shared/ui/Loader'
 import styles from './MainPage.module.css'
 
 /**
@@ -20,78 +20,51 @@ import styles from './MainPage.module.css'
  * @returns React компонент главной страницы
  */
 const MainPage: FC = () => {
-  // Получение популярных фильмов
+  // Загрузка популярных фильмов
   const { data: popularMovies, isLoading: popularLoading } = useGetPopularMoviesQuery(1)
-
-  // Получение лучших фильмов
+  // Загрузка лучших фильмов
   const { data: topRatedMovies, isLoading: topRatedLoading } = useGetTopRatedMoviesQuery(1)
-
-  // Получение предстоящих фильмов
+  // Загрузка предстоящих фильмов
   const { data: upcomingMovies, isLoading: upcomingLoading } = useGetUpcomingMoviesQuery(1)
-
-  // Получение фильмов, которые сейчас в прокате
+  // Загрузка фильмов в прокате
   const { data: nowPlayingMovies, isLoading: nowPlayingLoading } = useGetNowPlayingMoviesQuery(1)
-
-  /**
-   * Обработчик поиска
-   * @param _query текст поиска (не используется, так как навигация происходит внутри WelcomeSection)
-   */
-  const handleSearch = (_query: string) => {
-    // Логика обработки поиска (если потребуется на главной)
-  }
 
   return (
     <div className={styles.container}>
-      {/* Приветственная секция */}
-      <WelcomeSection _onSearch={handleSearch} />
+      {/* Приветственная секция с поиском и случайным бэкдропом */}
+      <WelcomeSection _onSearch={() => {}} />
 
       {/* Секция популярных фильмов */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Популярные фильмы</h2>
-        {popularLoading ? (
-          <Loader />
-        ) : popularMovies ? (
-          <MovieList movies={popularMovies.movies} />
-        ) : (
-          <p>Не удалось загрузить популярные фильмы</p>
-        )}
-      </section>
+      <MovieSection
+        title="Популярные фильмы"
+        movies={popularMovies?.movies}
+        isLoading={popularLoading}
+        categoryPath={`${ROUTES.CATEGORY}/popular`}
+      />
 
       {/* Секция лучших фильмов */}
-       <section className={styles.section}>
-         <h2 className={styles.sectionTitle}>Лучшие фильмы</h2>
-         {topRatedLoading ? (
-           <Loader />
-         ) : topRatedMovies ? (
-           <MovieList movies={topRatedMovies.movies} />
-         ) : (
-           <p>Не удалось загрузить лучшие фильмы</p>
-         )}
-       </section>
+      <MovieSection
+        title="Лучшие фильмы"
+        movies={topRatedMovies?.movies}
+        isLoading={topRatedLoading}
+        categoryPath={`${ROUTES.CATEGORY}/top_rated`}
+      />
 
-       {/* Секция предстоящих фильмов */}
-       <section className={styles.section}>
-         <h2 className={styles.sectionTitle}>Предстоящие фильмы</h2>
-         {upcomingLoading ? (
-           <Loader />
-         ) : upcomingMovies ? (
-           <MovieList movies={upcomingMovies.movies} />
-         ) : (
-           <p>Не удалось загрузить предстоящие фильмы</p>
-         )}
-       </section>
+      {/* Секция предстоящих фильмов */}
+      <MovieSection
+        title="Предстоящие фильмы"
+        movies={upcomingMovies?.movies}
+        isLoading={upcomingLoading}
+        categoryPath={`${ROUTES.CATEGORY}/upcoming`}
+      />
 
-       {/* Секция фильмов, которые сейчас в прокате */}
-       <section className={styles.section}>
-         <h2 className={styles.sectionTitle}>Сейчас в прокате</h2>
-         {nowPlayingLoading ? (
-           <Loader />
-         ) : nowPlayingMovies ? (
-           <MovieList movies={nowPlayingMovies.movies} />
-         ) : (
-           <p>Не удалось загрузить фильмы в прокате</p>
-         )}
-       </section>
+      {/* Секция фильмов в прокате */}
+      <MovieSection
+        title="Сейчас в прокате"
+        movies={nowPlayingMovies?.movies}
+        isLoading={nowPlayingLoading}
+        categoryPath={`${ROUTES.CATEGORY}/now_playing`}
+      />
     </div>
   )
 }
