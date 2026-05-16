@@ -55,7 +55,7 @@ const PopularMoviesSection: FC<PopularMoviesSectionProps> = ({ movies, isLoading
           {/* Кнопка просмотра всех фильмов */}
           <div className={styles.footer}>
             <button className={styles.viewMoreButton} onClick={handleViewMore}>
-              Смотреть все
+              Смотреть еще
             </button>
           </div>
         </>

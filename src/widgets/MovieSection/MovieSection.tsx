@@ -1,5 +1,5 @@
 /**
- * Компонент секции фильмов с заголовком, списком и кнопкой "Смотреть все"
+ * Компонент секции фильмов с заголовком, списком и кнопкой "Смотреть еще"
  * Используется на главной странице для каждой категории фильмов
  */
 
@@ -35,7 +35,7 @@ interface MovieSectionProps {
 const MovieSection: FC<MovieSectionProps> = ({ title, movies, isLoading, categoryPath }) => {
   const navigate = useNavigate()
 
-  /** Обработчик клика по кнопке "Смотреть все" */
+  /** Обработчик клика по кнопке "Смотреть еще" */
   const handleViewMore = () => {
     navigate(categoryPath)
   }
@@ -48,7 +48,7 @@ const MovieSection: FC<MovieSectionProps> = ({ title, movies, isLoading, categor
       <div className={styles.header}>
         <h2 className={styles.title}>{title}</h2>
         <button className={styles.viewMoreButton} onClick={handleViewMore}>
-          Смотреть все
+          Смотреть еще
         </button>
       </div>
 

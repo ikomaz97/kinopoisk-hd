@@ -44,7 +44,7 @@
 .footer {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 111px;
 }
 
 /* Кнопка "View More" */
@@ -113,4 +113,3 @@
     min-width: 120px;
   }
 }
-

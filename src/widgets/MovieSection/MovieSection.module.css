@@ -36,6 +36,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  margin-top: 15px;
 }
 
 .viewMoreButton:hover {
