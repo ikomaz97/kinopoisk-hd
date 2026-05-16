@@ -214,9 +214,9 @@ export const RangeSlider: FC<RangeSliderProps> = ({
                             padding: 0,
                             margin: 0,
                         },
-                        // Активный ползунок всегда поверх остальных
+                        // Активный ползунок всегда поверх — перебиваем inline-стили MUI
                         '& .MuiSlider-thumb.Mui-active': {
-                            zIndex: 3,
+                            zIndex: '3 !important' as unknown as number,
                         },
                     }}
                 />
