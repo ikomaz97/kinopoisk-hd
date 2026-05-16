@@ -41,6 +41,7 @@ const SearchInput: FC<SearchInputProps> = (props) => {
       className={`${styles.searchInput} ${className}`}
       placeholder={placeholder}
       onChange={handleChange}
+      spellCheck="false"
       {...restProps}
     />
   )
