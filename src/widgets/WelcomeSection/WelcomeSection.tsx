@@ -43,7 +43,7 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
       const randomIndex = Math.floor(Math.random() * popularMovies.movies.length)
       const randomMovie = popularMovies.movies[randomIndex]
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRandomBackdropUrl(randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'w1280') : null)
+      setRandomBackdropUrl(randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'original') : null)
     }
   }, [popularMovies])
 
