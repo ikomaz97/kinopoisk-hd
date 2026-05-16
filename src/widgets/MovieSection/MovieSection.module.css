@@ -60,14 +60,20 @@
   color: var(--color-error);
 }
 
-/* Сетка скелетонов на время загрузки */
+/* Сетка скелетонов на время загрузки (горизонтальный ряд) */
 .skeletonGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
 }
 
 .skeletonGrid > * {
+  flex: 0 0 auto;
+  width: 180px;
   aspect-ratio: 2 / 3;
   min-height: 300px;
 }

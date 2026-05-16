@@ -59,7 +59,7 @@ const MovieSection: FC<MovieSectionProps> = ({ title, movies, isLoading, categor
           ))}
         </div>
       ) : displayMovies && displayMovies.length > 0 ? (
-        <MovieList movies={displayMovies} />
+        <MovieList movies={displayMovies} horizontal={true} />
       ) : (
         <p className={styles.error}>Не удалось загрузить {title.toLowerCase()}</p>
       )}
@@ -68,4 +68,3 @@ const MovieSection: FC<MovieSectionProps> = ({ title, movies, isLoading, categor
 }
 
 export default MovieSection
-
