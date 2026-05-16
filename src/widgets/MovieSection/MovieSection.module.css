@@ -1,0 +1,89 @@
+/**
+ * Стили компонента MovieSection
+ */
+
+/* Основной контейнер секции */
+.section {
+  margin-bottom: 60px;
+}
+
+/* Заголовок и кнопка "Смотреть все" */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+/* Название секции */
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Кнопка "Смотреть все" */
+.viewMoreButton {
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  background-color: transparent;
+  border: 2px solid var(--color-accent);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.viewMoreButton:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Загрузка */
+.loading {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+/* Ошибка */
+.error {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1rem;
+  color: var(--color-error);
+}
+
+/* Сетка скелетонов на время загрузки */
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.skeletonGrid > * {
+  aspect-ratio: 2 / 3;
+  min-height: 300px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .viewMoreButton {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+  }
+}
