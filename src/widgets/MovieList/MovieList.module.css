@@ -56,3 +56,19 @@
   font-weight: bold;
   color: var(--color-accent);
 }
+
+/* Горизонтальный ряд — все карточки на одной строке, одинакового размера */
+.movieListHorizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.movieListHorizontal > * {
+  flex: 0 0 auto;
+  width: 180px;
+}
