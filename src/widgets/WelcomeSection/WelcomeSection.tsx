@@ -3,8 +3,8 @@
  * Отображает приветственную секцию с фоновым изображением популярного фильма и поиском
  */
 
-import type { FC, FormEvent, ChangeEvent } from 'react'
-import { useState, useEffect } from 'react'
+import type { FC, ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPopularMoviesQuery } from '@/entities/movie/api'
 import { getBackdropUrl } from '@/shared/lib/image'
@@ -53,7 +53,7 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
     setSearchQuery(event.target.value)
   }
 
-  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit: React.SubmitEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const query = formData.get('search') as string
