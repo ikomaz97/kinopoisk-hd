@@ -4,7 +4,7 @@
  */
 
 import type { FC, FormEvent, ChangeEvent } from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useGetPopularMoviesQuery } from '@/entities/movie/api'
 import { getBackdropUrl } from '@/shared/lib/image'
@@ -31,31 +31,28 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
   // Получение популярных фильмов для фонового изображения
   const { data: popularMovies, isLoading } = useGetPopularMoviesQuery(1)
 
-  // Выбор случайного фильма для фона при загрузке
-  // Используем lazy initialization для избежания проблем с чистотой render
-  const [randomBackdropUrl] = useState<string | null>(() => {
+  // Состояние для хранения URL случайного фонового изображения
+  const [randomBackdropUrl, setRandomBackdropUrl] = useState<string | null>(null)
+
+  /**
+   * Выбор случайного фильма для фона при загрузке популярных фильмов
+   * Обновляется при изменении списка фильмов
+   */
+  useEffect(() => {
     if (popularMovies?.movies.length) {
-      const randomMovie = popularMovies.movies[Math.floor(Math.random() * popularMovies.movies.length)]
-      return randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'w1280') : null
+      const randomIndex = Math.floor(Math.random() * popularMovies.movies.length)
+      const randomMovie = popularMovies.movies[randomIndex]
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setRandomBackdropUrl(randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'w1280') : null)
     }
-    return null
-  })
+  }, [popularMovies])
 
   // Состояние для отслеживания текста в поле поиска
   const [searchQuery, setSearchQuery] = useState<string>('')
-
-  /**
-   * Обработчик изменения текста в поле поиска
-   * @param event событие изменения input
-   */
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value)
   }
 
-  /**
-   * Обработчик отправки формы поиска
-   * @param event событие отправки формы
-   */
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -71,7 +68,7 @@ const WelcomeSection: FC<WelcomeSectionProps> = () => {
       {randomBackdropUrl && (
         <div
           className={styles.background}
-          style={{ '--bg-image': `url(${randomBackdropUrl})` } as React.CSSProperties}
+          style={{ backgroundImage: `url(${randomBackdropUrl})` }}
           aria-hidden="true"
         />
       )}
