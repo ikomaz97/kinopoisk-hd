@@ -6,7 +6,7 @@
 import { baseApi } from '@/shared/api/baseApi'
 import type { MovieDetails, MovieSearchResult, MoviesWithPagination, GenreListResponse } from '../model'
 import { MovieDetailsSchema, SearchSchema, GenreListSchema } from '../model/schemas'
-import { DEFAULT_LANGUAGE, DEFAULT_REGION, TMDB_ACCESS_TOKEN } from '@/shared/constants/api'
+import { DEFAULT_LANGUAGE, DEFAULT_REGION } from '@/shared/constants/api'
 
 /**
  * API для получения фильмов из TMDB
@@ -15,110 +15,111 @@ export const movieApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     /**
      * Получить популярные фильмы
+     * Используется на главной странице
      * @param page номер страницы
      * @returns популярные фильмы с информацией о пагинации
      */
-    getPopularMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
-      url: '/movie/popular',
-      params: {
-        page,
-        language: DEFAULT_LANGUAGE,
-        region: DEFAULT_REGION,
+    getPopularMovies: builder.query<MoviesWithPagination, number | void>({
+      keepUnusedDataFor: 300, // Кэш на 5 минут — пользователь часто возвращается на главную
+      query: (page = 1) => ({
+        url: '/movie/popular',
+        params: {
+          page,
+          language: DEFAULT_LANGUAGE,
+          region: DEFAULT_REGION,
+        },
+      }),
+      transformResponse: (response) => {
+        const result = SearchSchema.parse(response)
+        return {
+          movies: result.results,
+          totalPages: result.total_pages,
+          totalResults: result.total_results,
+        }
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
-    }),
-    transformResponse: (response) => {
-      const result = SearchSchema.parse(response)
-      return {
-        movies: result.results,
-        totalPages: result.total_pages,
-        totalResults: result.total_results,
-      }
-    },
     }),
 
     /**
      * Получить лучшие фильмы
+     * Используется на главной странице
      * @param page номер страницы
      * @returns лучшие фильмы с информацией о пагинации
      */
-    getTopRatedMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
-      url: '/movie/top_rated',
-      params: {
-        page,
-        language: DEFAULT_LANGUAGE,
-        region: DEFAULT_REGION,
+    getTopRatedMovies: builder.query<MoviesWithPagination, number | void>({
+      keepUnusedDataFor: 300,
+      query: (page = 1) => ({
+        url: '/movie/top_rated',
+        params: {
+          page,
+          language: DEFAULT_LANGUAGE,
+          region: DEFAULT_REGION,
+        },
+      }),
+      transformResponse: (response) => {
+        const result = SearchSchema.parse(response)
+        return {
+          movies: result.results,
+          totalPages: result.total_pages,
+          totalResults: result.total_results,
+        }
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
-    }),
-    transformResponse: (response) => {
-      const result = SearchSchema.parse(response)
-      return {
-        movies: result.results,
-        totalPages: result.total_pages,
-        totalResults: result.total_results,
-      }
-    },
     }),
 
     /**
      * Получить фильмы, которые сейчас в прокате
+     * Используется на главной странице
      * @param page номер страницы
      * @returns фильмы в прокате с информацией о пагинации
      */
-    getNowPlayingMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
-      url: '/movie/now_playing',
-      params: {
-        page,
-        language: DEFAULT_LANGUAGE,
-        region: DEFAULT_REGION,
+    getNowPlayingMovies: builder.query<MoviesWithPagination, number | void>({
+      keepUnusedDataFor: 300,
+      query: (page = 1) => ({
+        url: '/movie/now_playing',
+        params: {
+          page,
+          language: DEFAULT_LANGUAGE,
+          region: DEFAULT_REGION,
+        },
+      }),
+      transformResponse: (response) => {
+        const result = SearchSchema.parse(response)
+        return {
+          movies: result.results,
+          totalPages: result.total_pages,
+          totalResults: result.total_results,
+        }
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
-    }),
-    transformResponse: (response) => {
-      const result = SearchSchema.parse(response)
-      return {
-        movies: result.results,
-        totalPages: result.total_pages,
-        totalResults: result.total_results,
-      }
-    },
     }),
 
     /**
      * Получить предстоящие фильмы
+     * Используется на главной странице
      * @param page номер страницы
      * @returns предстоящие фильмы с информацией о пагинации
      */
-    getUpcomingMovies: builder.query<MoviesWithPagination, number | void>({ query: (page = 1) => ({
-      url: '/movie/upcoming',
-      params: {
-        page,
-        language: DEFAULT_LANGUAGE,
-        region: DEFAULT_REGION,
+    getUpcomingMovies: builder.query<MoviesWithPagination, number | void>({
+      keepUnusedDataFor: 300,
+      query: (page = 1) => ({
+        url: '/movie/upcoming',
+        params: {
+          page,
+          language: DEFAULT_LANGUAGE,
+          region: DEFAULT_REGION,
+        },
+      }),
+      transformResponse: (response) => {
+        const result = SearchSchema.parse(response)
+        return {
+          movies: result.results,
+          totalPages: result.total_pages,
+          totalResults: result.total_results,
+        }
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
-    }),
-    transformResponse: (response) => {
-      const result = SearchSchema.parse(response)
-      return {
-        movies: result.results,
-        totalPages: result.total_pages,
-        totalResults: result.total_results,
-      }
-    },
     }),
 
     /**
      * Поиск фильмов по названию
+     * Используется на странице поиска
      * @param query строка поиска
      * @param page номер страницы
      * @returns результаты поиска
@@ -131,15 +132,13 @@ export const movieApi = baseApi.injectEndpoints({
         language: DEFAULT_LANGUAGE,
         region: DEFAULT_REGION,
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
     }),
     transformResponse: (response) => SearchSchema.parse(response),
     }),
 
     /**
      * Получить детали фильма по ID
+     * Используется на странице деталей фильма
      * @param id ID фильма
      * @returns детали фильма
      */
@@ -149,15 +148,13 @@ export const movieApi = baseApi.injectEndpoints({
         language: DEFAULT_LANGUAGE,
         append_to_response: 'videos,credits',
       },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-      },
     }),
     transformResponse: (response) => MovieDetailsSchema.parse(response),
     }),
 
     /**
      * Получить похожие фильмы по ID
+     * Используется на странице деталей фильма
      * @param id ID фильма
      * @returns список похожих фильмов
      */
@@ -166,9 +163,6 @@ export const movieApi = baseApi.injectEndpoints({
       params: {
         language: DEFAULT_LANGUAGE,
         page: 1,
-      },
-      headers: {
-        Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
       },
     }),
     transformResponse: (response) => SearchSchema.parse(response),
@@ -200,9 +194,6 @@ export const movieApi = baseApi.injectEndpoints({
           'vote_average.lte': maxRating < 10 ? maxRating : undefined,
           sort_by: sortBy,
         },
-        headers: {
-          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
-        },
       }),
       transformResponse: (response) => {
         const result = SearchSchema.parse(response)
@@ -224,9 +215,6 @@ export const movieApi = baseApi.injectEndpoints({
         url: '/genre/movie/list',
         params: {
           language: DEFAULT_LANGUAGE,
-        },
-        headers: {
-          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
         },
       }),
       transformResponse: (response) => GenreListSchema.parse(response),

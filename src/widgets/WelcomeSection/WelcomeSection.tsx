@@ -4,11 +4,11 @@
  */
 
 import type { FC, ChangeEvent } from 'react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetPopularMoviesQuery } from '@/entities/movie/api'
 import { getBackdropUrl } from '@/shared/lib/image'
 import { SearchInput } from '@/shared/ui/SearchInput'
+import type { Movie } from '@/entities/movie'
 import styles from './WelcomeSection.module.css'
 
 /**
@@ -16,35 +16,33 @@ import styles from './WelcomeSection.module.css'
  */
 interface WelcomeSectionProps {
   /**
-   * Обработчик отправки формы поиска (не используется, так как навигация происходит внутри компонента)
+   * Список популярных фильмов для выбора случайного фонового изображения
    */
-  _onSearch?: (query: string) => void
+  popularMovies?: Movie[]
+  /**
+   * Флаг загрузки популярных фильмов
+   */
+  isLoading?: boolean
 }
 
 /**
  * Приветственная секция с фоновым изображением и поиском
+ * @param popularMovies список популярных фильмов для фона
+ * @param isLoading флаг загрузки данных
  * @returns React компонент WelcomeSection
  */
-const WelcomeSection: FC<WelcomeSectionProps> = () => {
+const WelcomeSection: FC<WelcomeSectionProps> = ({ popularMovies, isLoading }) => {
   const navigate = useNavigate()
 
-  // Получение популярных фильмов для фонового изображения
-  const { data: popularMovies, isLoading } = useGetPopularMoviesQuery(1)
-
-  // Состояние для хранения URL случайного фонового изображения
-  const [randomBackdropUrl, setRandomBackdropUrl] = useState<string | null>(null)
-
   /**
-   * Выбор случайного фильма для фона при загрузке популярных фильмов
-   * Обновляется при изменении списка фильмов
+   * Вычисляем случайный URL фонового изображения из списка популярных фильмов
+   * Мемоизирован — пересчитывается только при изменении списка фильмов
    */
-  useEffect(() => {
-    if (popularMovies?.movies.length) {
-      const randomIndex = Math.floor(Math.random() * popularMovies.movies.length)
-      const randomMovie = popularMovies.movies[randomIndex]
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setRandomBackdropUrl(randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'original') : null)
-    }
+  const randomBackdropUrl = useMemo(() => {
+    if (!popularMovies?.length) return null
+    const randomIndex = Math.floor(Math.random() * popularMovies.length)
+    const randomMovie = popularMovies[randomIndex]
+    return randomMovie ? getBackdropUrl(randomMovie.backdrop_path, 'original') : null
   }, [popularMovies])
 
   // Состояние для отслеживания текста в поле поиска

@@ -51,6 +51,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
             src={getPosterUrl(movie.poster_path)}
             alt={movie.title}
             className={styles.poster}
+            loading="lazy"
           />
         </Link>
 

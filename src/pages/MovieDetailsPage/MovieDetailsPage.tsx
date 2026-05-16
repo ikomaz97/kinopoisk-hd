@@ -127,12 +127,14 @@ const MovieDetailsPage: FC = () => {
             src={getBackdropUrl(movie.backdrop_path)}
             alt={movie.title}
             className={styles.backdrop}
+            loading="lazy"
           />
           <div className={styles.posterOverlay}>
             <img
               src={getPosterUrl(movie.poster_path)}
               alt={movie.title}
               className={styles.poster}
+              loading="lazy"
             />
           </div>
         </div>
@@ -223,6 +225,7 @@ const MovieDetailsPage: FC = () => {
                       src={getProfileUrl(actor.profile_path)}
                       alt={actor.name}
                       className={styles.actorPhoto}
+                      loading="lazy"
                     />
                     <div className={styles.actorInfo}>
                       <span className={styles.actorName}>{actor.name}</span>

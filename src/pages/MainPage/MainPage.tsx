@@ -32,7 +32,7 @@ const MainPage: FC = () => {
   return (
     <div className={styles.container}>
       {/* Приветственная секция с поиском и случайным бэкдропом */}
-      <WelcomeSection _onSearch={() => {}} />
+      <WelcomeSection popularMovies={popularMovies?.movies} isLoading={popularLoading} />
 
       {/* Секция популярных фильмов */}
       <MovieSection
