@@ -10,8 +10,8 @@
   min-height: 600px;
   margin-left: calc(50% - 50vw);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;    /* ← Прижимаем к верху */
+  justify-content: center;     /* ← По горизонтали оставляем по центру */
   overflow: hidden;
 }
 
